@@ -24,7 +24,7 @@ const VirtualizedList = (props: ReduxType) => {
   return (
     <Box sx={{ width: "100%", height: 400, bgcolor: "background.paper" }}>
       <div>Records:{len}</div>
-      <FixedSizeList height={400} width={"30%"} itemSize={100} itemCount={len} overscanCount={5} >
+      <FixedSizeList height={400} width={"50%"} itemSize={100} itemCount={len} overscanCount={5} >
         {renderRow}
       </FixedSizeList>
     </Box>

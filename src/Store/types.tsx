@@ -35,20 +35,32 @@ export interface userObject  {
 };
 
 export interface userDetailInfo extends userObject {
-  name: string;
-  company: string;
-  blog: string;
-  location: string;
-  email: string;
-  hireable: string;
-  bio: string;
-  twitter_username: string;
-  public_repos: number;
-  public_gists: number;
-  followers: number;
-  following: number;
-  created_at: string;
-  updated_at: string;
+  name?: string;
+  company?: string;
+  blog?: string;
+  location?: string;
+  email?: string;
+  hireable?: string;
+  bio?: string;
+  twitter_username?: string;
+  public_repos?: number;
+  public_gists?: number;
+  followers?: number;
+  following?: number;
+  created_at?: string;
+  updated_at?: string;
+  total_contributions?: string; 
+
+}
+export interface repoEvent {
+repo:repo
+}
+
+interface repo {
+
+id: number
+name: string
+url: string
 }
 
 
@@ -60,26 +72,22 @@ export const  userDisplayedData =[
   "repos_url"
 ]
 
-export enum SearchTextActions {
-  ROWS_FILTER_START = "ROWS_FILTER_START",
-  ROWS_FILTERED = "ROWS_FILTERED",
-  SET_PERCENT = "SET_PERCENT"
-}
 export enum FetchDataActions {
   FETCH_EX_DATA_STARTED = "FETCH_EX_DATA_STARTED",
   FETCH_EX_DATA_SUCCESS = "FETCH_EX_DATA_SUCCESS",
   FETCH_EX_DATA_ERROR = "FETCH_EX_DATA_ERROR",
-  FETCH_MEMBER_DATA_STARTED = "FETCH_MEMBER_DATA_STARTED",
-  FETCH_MEMBER_DATA_SUCCESS = "FETCH_MEMBER_DATA_SUCCESS",
-  FETCH_MEMBER_DATA_ERROR = "FETCH_MEMBER_DATA_ERROR",
+  FETCH_MEMBERS_DATA_STARTED = "FETCH_MEMBER_DATA_STARTED",
+  FETCH_MEMBERS_DATA_SUCCESS = "FETCH_MEMBER_DATA_SUCCESS",
+  FETCH_MEMBERS_DATA_ERROR = "FETCH_MEMBER_DATA_ERROR",
+  SET_MEMBERS_FROM_LOCAL = "SET_MEMBERS_FROM_LOCAL",
 }
 
 export type filterActions = ActionType<typeof actions>;
 
 export interface filterState {
-  data: userObject[];
+  data: userDetailInfo[];
   filteredData: any;
-  memberData: any;
+  memberData: userDetailInfo[];
   isLoading: boolean;
   error: any;
   phrase: string;

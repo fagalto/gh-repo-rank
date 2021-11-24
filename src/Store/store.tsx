@@ -1,10 +1,9 @@
-import { combineReducers, createStore, applyMiddleware } from "redux";
+import { combineReducers, createStore } from "redux";
 import { filterReducer } from "./reducers";
-import { filterState, RootState, userObject } from "./types";
+import { filterState, RootState, userDetailInfo } from "./types";
 import * as asyncactions from "./async-actions";
 import { Dispatch } from "redux";
 import { filterActions } from "./types";
-import * as actions from "./actions";
 import { connect } from "react-redux";
 
 const store = createStore<RootState, any, any, any>(
@@ -23,8 +22,9 @@ export const mapStateToProps = ({ filter }: RootState) => {
 export const mapDispatcherToProps = (dispatch: Dispatch<filterActions>) => {
   return {
     fetchCommunityData: () => asyncactions.fetchCommunityData(dispatch),
-    fetchMemberData: (memberId: string) => asyncactions.fetchMemberData(dispatch, memberId),
-    fetchAllUsers:(communityData: userObject[])=>asyncactions.fetchAllUsers(dispatch,communityData)
+    fetchAllMembersDetails: (communityData: userDetailInfo[]) =>
+      asyncactions.fetchAllMembersDetails(dispatch, communityData),
+    getDatafromMemory: (communityData:userDetailInfo[]) =>asyncactions.setMembersDetailsFromLocal(dispatch,communityData)
   };
 };
 

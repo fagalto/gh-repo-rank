@@ -1,6 +1,5 @@
 import { act } from "react-dom/test-utils";
 import {
-  SearchTextActions as sa,
   FetchDataActions as fd,
   filterState,
   filterActions,
@@ -35,15 +34,15 @@ export const filterReducer = (state: filterState = init, action: filterActions):
       console.log("Error fetch",action.payload.error)
       return { ...state, isLoading: false, error: action.payload.error };
     
-    case fd.FETCH_MEMBER_DATA_STARTED:
+    case fd.FETCH_MEMBERS_DATA_STARTED:
       
       return { ...state, isLoading: true };
-    case fd.FETCH_MEMBER_DATA_SUCCESS:
-      const newMembers = state.memberData.slice()
-      newMembers.push(action.payload.data as unknown as userDetailInfo);
-      return { ...state, isLoading: false, memberData: newMembers };
-    case fd.FETCH_MEMBER_DATA_ERROR:
+    case fd.FETCH_MEMBERS_DATA_SUCCESS:
+      return { ...state, isLoading: false, memberData: action.payload.data, data:action.payload.data};
+    case fd.FETCH_MEMBERS_DATA_ERROR:
       return { ...state, error: action.payload.error };
+    case fd.SET_MEMBERS_FROM_LOCAL:
+      return { ...state, data:action.payload.data, memberData:action.payload.data};
   
     default:
       return state;
