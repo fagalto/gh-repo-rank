@@ -56,7 +56,7 @@ export interface repoEvent {
 repo:repo
 }
 
-interface repo {
+export interface repo {
 
 id: number
 name: string
@@ -80,18 +80,22 @@ export enum FetchDataActions {
   FETCH_MEMBERS_DATA_SUCCESS = "FETCH_MEMBER_DATA_SUCCESS",
   FETCH_MEMBERS_DATA_ERROR = "FETCH_MEMBER_DATA_ERROR",
   SET_MEMBERS_FROM_LOCAL = "SET_MEMBERS_FROM_LOCAL",
+  SET_MEMBERS_TO_VIEW = "SET_MEMBERS_TO_VIEW",
+  REPOS_FETCH_START = "REPOS_FETCH_START",
+  REPOS_FETCHED = "REPOS_FETCHED",
+  REPOS_FETCH_ERROR = "REPOS_FETCH_ERROR",
+  SET_REPOS_FROM_LOCAL = "SET_REPOS_FROM_LOCAL",
 }
 
 export type filterActions = ActionType<typeof actions>;
 
 export interface filterState {
   data: userDetailInfo[];
-  filteredData: any;
   memberData: userDetailInfo[];
   isLoading: boolean;
   error: any;
-  phrase: string;
-  searchPercent: string;
+  memberToView: userDetailInfo | string
+  memberRepos: repoEvent[];
 }
 
 export interface RootState {

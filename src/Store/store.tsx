@@ -1,6 +1,6 @@
 import { combineReducers, createStore } from "redux";
 import { filterReducer } from "./reducers";
-import { filterState, RootState, userDetailInfo } from "./types";
+import { filterState, RootState, userDetailInfo,repoEvent } from "./types";
 import * as asyncactions from "./async-actions";
 import { Dispatch } from "redux";
 import { filterActions } from "./types";
@@ -24,7 +24,12 @@ export const mapDispatcherToProps = (dispatch: Dispatch<filterActions>) => {
     fetchCommunityData: () => asyncactions.fetchCommunityData(dispatch),
     fetchAllMembersDetails: (communityData: userDetailInfo[]) =>
       asyncactions.fetchAllMembersDetails(dispatch, communityData),
-    getDatafromMemory: (communityData:userDetailInfo[]) =>asyncactions.setMembersDetailsFromLocal(dispatch,communityData)
+    getDatafromMemory: (communityData: userDetailInfo[]) =>
+      asyncactions.setMembersDetailsFromLocal(dispatch, communityData),
+    setMembertoDetailedView: (member: userDetailInfo) =>
+      asyncactions.setMemberToViewDetails(dispatch, member),
+    fetchRepositories: (member: userDetailInfo) => asyncactions.fetchRepos(dispatch, member),
+    fetchReposFromLocal: (repos: repoEvent[])=> asyncactions.fetchReposFromLocal(dispatch,repos)
   };
 };
 

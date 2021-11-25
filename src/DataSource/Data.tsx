@@ -42,20 +42,25 @@ export const getMembersFromlocalStorage = () => {
     const membersDetailsInLocal = localStorage.getItem("membersDetails");
     const membersDetails =
     membersDetailsInLocal !== null ? JSON.parse(membersDetailsInLocal) as userDetailInfo[] : [];
-  console.log("data call from local storage", membersDetails)
+  //console.log("data call from local storage", membersDetails)
 return membersDetails
 }
-
-
+export const getItemFromlocalStorage = (itemName:string) => {
+  const item = localStorage.getItem(itemName);
+  const ret = item !== null ? (item) : ""
+ // console.log("getting items from localStorage instead of", itemName)
+  return ret
+};
 
 export async function getData(url: string, options: object) {
-  const authorization = await auth({ type: "oauth-app" })
+  const authorization = await auth({ type: "oauth-app" });
   const options2 = {
     fetchOptions: authorization,
   };
- 
-  return await limiter.schedule(() => fetchPaginate(url, options2))
+  const response = limiter.schedule(() => fetchPaginate(url, options2));
+  return await response
 }
+
 
 async function getDataSimple(url: string, options: object) {
   const authorization = await auth({ type: "oauth-app" });

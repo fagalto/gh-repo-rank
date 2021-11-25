@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import List from "./List/List";
-import MemberDetails from "./MemberDetails/MemberDetails"
+import List from "./Components/List/List";
+import MemberDetails from "./Components/MemberDetails/MemberDetails"
+
+import MemberContainer from "./Components/MemberDetails/MemberContainer";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import * as types from "./Store/types";
@@ -51,15 +53,18 @@ const FilteredTable: React.FC<ReduxType> = function (props) {
 
     dataFromApiRequired == true && fetchUsers();
   });
-  const user = { userProps: props.filter.data[0] }
+
   return Object.keys(props.filter.data).length > 0 ? (
     <Grid container sx={{ paddingTop: "20px" }} spacing={2}>
-      <Grid item xs={6}>
+      <Grid item xs={12} sm={4}>
         <List />
       </Grid>
 
-      <Grid item xs={6}>
-        <MemberDetails {...user} />
+      <Grid item xs={12} sm={4}>
+        <MemberContainer  />
+      </Grid>
+      <Grid item xs={12} sm={4}>
+        repo details
       </Grid>
     </Grid>
   ) : (

@@ -1,49 +1,61 @@
 import { act } from "react-dom/test-utils";
-import {
-  FetchDataActions as fd,
-  filterState,
-  filterActions,
-  userDetailInfo,
-} from "./types";
+import { FetchDataActions as fd, filterState, filterActions, userDetailInfo } from "./types";
 
 const init: filterState = {
   data: [],
   memberData: [],
   isLoading: false,
-    filteredData: {},
   error: null,
-  phrase: "",
-    searchPercent:"0"
+  memberRepos: [],
+  memberToView:""
 };
 
-
 export const filterReducer = (state: filterState = init, action: filterActions): filterState => {
-   console.log(action.type);
+  console.log(action.type);
   switch (action.type) {
     case fd.FETCH_EX_DATA_STARTED:
       return { ...state, isLoading: true, data: [], error: null };
     case fd.FETCH_EX_DATA_SUCCESS:
-     
+
       return {
         ...state,
         data: action.payload.data,
         isLoading: false,
         error: null,
+        memberToView: "",
       };
     case fd.FETCH_EX_DATA_ERROR:
-      console.log("Error fetch",action.payload.error)
+      console.log("Error fetch", action.payload.error);
       return { ...state, isLoading: false, error: action.payload.error };
-    
+
     case fd.FETCH_MEMBERS_DATA_STARTED:
-      
       return { ...state, isLoading: true };
     case fd.FETCH_MEMBERS_DATA_SUCCESS:
-      return { ...state, isLoading: false, memberData: action.payload.data, data:action.payload.data};
+      return {
+        ...state,
+        isLoading: false,
+        memberData: action.payload.data,
+        data: action.payload.data,
+      };
     case fd.FETCH_MEMBERS_DATA_ERROR:
       return { ...state, error: action.payload.error };
     case fd.SET_MEMBERS_FROM_LOCAL:
-      return { ...state, data:action.payload.data, memberData:action.payload.data};
-  
+      return { ...state, data: action.payload.data, memberData: action.payload.data };
+    case fd.SET_MEMBERS_TO_VIEW:
+      return { ...state, memberToView: action.payload.data };
+    case fd.REPOS_FETCH_START:
+      return { ...state, isLoading: true, memberRepos: [] };
+    case fd.REPOS_FETCHED:
+      return { ...state, memberRepos: action.payload.data, isLoading: false };
+    case fd.REPOS_FETCH_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload.error,
+      };
+    case fd.SET_REPOS_FROM_LOCAL:
+      console.log("from memory i have:",action.payload.data)
+      return { ...state, memberRepos: action.payload.data, isLoading: false };
     default:
       return state;
   }

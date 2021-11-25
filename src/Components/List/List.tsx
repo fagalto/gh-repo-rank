@@ -2,8 +2,8 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Member from "./Member";
 import { FixedSizeList, ListChildComponentProps, VariableSizeList } from "react-window";
-import * as types from "../Store/types";
-import { connectToStore, ReduxType } from "../Store/store";
+import * as types from "../../Store/types";
+import { connectToStore, ReduxType } from "../../Store/store";
 
 const VirtualizedList = (props: ReduxType) => {
 
@@ -22,9 +22,9 @@ const VirtualizedList = (props: ReduxType) => {
 
   const len = props.filter.data.length;
   return (
-    <Box sx={{ width: "100%", height: 400, bgcolor: "background.paper" }}>
+    <Box sx={{ width: "100%", height: "100%", bgcolor: "background.paper" }}>
       <div>Records:{len}</div>
-      <FixedSizeList height={400} width={"50%"} itemSize={100} itemCount={len} overscanCount={5} >
+      <FixedSizeList height={500} width={"100%"} itemSize={100} itemCount={len} overscanCount={5} >
         {renderRow}
       </FixedSizeList>
     </Box>
