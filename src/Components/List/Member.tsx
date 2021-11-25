@@ -9,6 +9,11 @@ import CardMedia from "@mui/material/CardMedia";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
+import StarIcon from "@mui/icons-material/Star";
+import PersonIcon from "@mui/icons-material/Person";
+import ForkRightIcon from "@mui/icons-material/ForkRight";
+import Badge from "@mui/material/Badge";
+import Chip from "@mui/material/Chip";
 
 
 //const data = { rows: exampleData };
@@ -38,6 +43,7 @@ const Member = (props: Member) => {
         />
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <CardContent sx={{ flex: "1 0 auto" }}>
+            
             <Typography component="div" variant="h5">
               {props.userProps.login}
             </Typography>
@@ -47,7 +53,6 @@ const Member = (props: Member) => {
               {props.userProps.followers}
             </Typography>
           </CardContent>
-          <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}></Box>
         </Box>
       </Card>
     </div>

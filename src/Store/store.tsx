@@ -21,7 +21,7 @@ export const mapStateToProps = ({ filter }: RootState) => {
 
 export const mapDispatcherToProps = (dispatch: Dispatch<filterActions>) => {
   return {
-    fetchCommunityData: () => asyncactions.fetchCommunityData(dispatch),
+    fetchCommunityData: (community: string) => asyncactions.fetchCommunityData(dispatch, community),
     fetchAllMembersDetails: (communityData: userDetailInfo[]) =>
       asyncactions.fetchAllMembersDetails(dispatch, communityData),
     getDatafromMemory: (communityData: userDetailInfo[]) =>
@@ -29,7 +29,8 @@ export const mapDispatcherToProps = (dispatch: Dispatch<filterActions>) => {
     setMembertoDetailedView: (member: userDetailInfo) =>
       asyncactions.setMemberToViewDetails(dispatch, member),
     fetchRepositories: (member: userDetailInfo) => asyncactions.fetchRepos(dispatch, member),
-    fetchReposFromLocal: (repos: repoEvent[])=> asyncactions.fetchReposFromLocal(dispatch,repos)
+    fetchReposFromLocal: (repos: repoEvent[]) => asyncactions.fetchReposFromLocal(dispatch, repos),
+    setRepoToDetailedView: (repoUrl: string) => asyncactions.fetchRepoDetails(dispatch, repoUrl),
   };
 };
 

@@ -46,10 +46,20 @@ export const reposFetchStart = () => {
       });
   
 }
-export const reposFetched = (data: repoEvent[]) => {
-        return action(FetchDataActions.REPOS_FETCHED, {data:data});
+export const reposFetched = (data: repoEvent[], member:userDetailInfo) => {
+        return action(FetchDataActions.REPOS_FETCHED, {data:data, member:member});
 };
 export const reposFetchError = (error: any) => {
     return action(FetchDataActions.REPOS_FETCH_ERROR, { error: error });
+};
+
+export const singleRepoFetchStart = () => {
+  return action(FetchDataActions.REPO_FETCH_START, {});
+};
+export const singleRepoFetched = (data: any) => {
+  return action(FetchDataActions.REPO_FETCHED, { data: data });
+};
+export const singleRepoFetchError = (error: any) => {
+  return action(FetchDataActions.REPO_FETCH_ERROR, { error: error });
 };
 

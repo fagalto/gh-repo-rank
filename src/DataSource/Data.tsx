@@ -20,7 +20,9 @@ export const auth = createAppAuth({
 });
 
 
-export const communityEndpoint = "https://api.github.com/orgs/reactjs/members";
+export const communityEndpoint = (community: string = "reactjs") => {
+  return `https://api.github.com/orgs/${community}/members`;
+};
 export const connectOptions = {
   headers: {
     accept: "*/*",
@@ -31,8 +33,8 @@ export const connectOptions = {
 };
 
 
-export const getCommunity = () => {
-  return getData(communityEndpoint, connectOptions);
+export const getCommunity = (community:string = "reactjs") => {
+  return getData(communityEndpoint(community), connectOptions);
 }
 export const getMember = (url: string) => {
   return getDataSimple(url, connectOptions);
@@ -62,7 +64,7 @@ export async function getData(url: string, options: object) {
 }
 
 
-async function getDataSimple(url: string, options: object) {
+export async function getDataSimple(url: string, options: object) {
   const authorization = await auth({ type: "oauth-app" });
   const options2 = {
     fetchOptions: authorization,

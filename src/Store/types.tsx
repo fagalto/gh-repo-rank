@@ -1,38 +1,31 @@
 import { ActionType } from "typesafe-actions";
 import * as actions from "./actions";
 
-
-
 export interface appData {
   rows: any[];
   filteredRows: any[];
 }
-export type barcodeDataArray = {
-  item1: string;
-  item2: string;
-}
-export interface userObject  {
-
-  login: string
-  id: number
-  node_id: string
-  avatar_url: string
-  gravatar_id: string
-  url: string
-  html_url: string
-  followers_url: string
-  following_url: string
-  gists_url: string
-  starred_url: string
-  subscriptions_url: string
-  organizations_url: string
-  repos_url: string
-  events_url: string
-  received_events_url: string
-  type: string
-  site_admin: boolean
+export interface userObject {
+  login: string;
+  id: number;
+  node_id: string;
+  avatar_url: string;
+  gravatar_id: string;
+  url: string;
+  html_url: string;
+  followers_url: string;
+  following_url: string;
+  gists_url: string;
+  starred_url: string;
+  subscriptions_url: string;
+  organizations_url: string;
+  repos_url: string;
+  events_url: string;
+  received_events_url: string;
+  type: string;
+  site_admin: boolean;
   //
-};
+}
 
 export interface userDetailInfo extends userObject {
   name?: string;
@@ -49,28 +42,19 @@ export interface userDetailInfo extends userObject {
   following?: number;
   created_at?: string;
   updated_at?: string;
-  total_contributions?: string; 
-
+  total_contributions?: string;
 }
 export interface repoEvent {
-repo:repo
+  repo: repo;
 }
 
 export interface repo {
-
-id: number
-name: string
-url: string
+  id: number;
+  name: string;
+  url: string;
 }
 
-
-export const  userDisplayedData =[
-  "login",
-  "avatar_url",
-  "contributions",
-  "followers",
-  "repos_url"
-]
+export const userDisplayedData = ["login", "avatar_url", "contributions", "followers", "repos_url"];
 
 export enum FetchDataActions {
   FETCH_EX_DATA_STARTED = "FETCH_EX_DATA_STARTED",
@@ -85,19 +69,46 @@ export enum FetchDataActions {
   REPOS_FETCHED = "REPOS_FETCHED",
   REPOS_FETCH_ERROR = "REPOS_FETCH_ERROR",
   SET_REPOS_FROM_LOCAL = "SET_REPOS_FROM_LOCAL",
+
+  REPO_FETCH_START = "REPO_FETCH_START",
+  REPO_FETCHED = "REPO_FETCHED",
+  REPO_FETCH_ERROR = "REPO_FETCH_ERROR",
 }
 
 export type filterActions = ActionType<typeof actions>;
 
 export interface filterState {
+  communityName: string;
   data: userDetailInfo[];
   memberData: userDetailInfo[];
   isLoading: boolean;
   error: any;
-  memberToView: userDetailInfo | string
-  memberRepos: repoEvent[];
+  memberToView: userDetailInfo | string;
+  memberRepos: any;
+  repoDetails: any;
 }
 
 export interface RootState {
   filter: filterState;
+}
+
+export interface GitRepo {
+  id: number;
+  node_id: string;
+  name: string;
+  full_name: string;
+  private: boolean;
+  owner: userDetailInfo;
+  html_url: string;
+  description: string;
+  fork: boolean;
+  url: string;
+
+  homepage: string;
+  stargazers_count: number;
+  watchers_count: number;
+  language: string;
+  forks: number;
+  open_issues: number;
+  watchers: number;
 }
