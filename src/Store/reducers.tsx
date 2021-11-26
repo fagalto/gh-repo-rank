@@ -10,6 +10,7 @@ const init: filterState = {
   memberToView: "",
   repoDetails: [],
   communityName: "reactjs",
+  sortedBy:""
 };
 
 export const filterReducer = (state: filterState = init, action: filterActions): filterState => {
@@ -74,6 +75,8 @@ export const filterReducer = (state: filterState = init, action: filterActions):
       };
     case fd.SET_REPOS_FROM_LOCAL:
       return { ...state, memberRepos: action.payload.data, isLoading: false };
+    case fd.SET_SORTED_COMMUNITY:
+      return { ...state, memberData: action.payload.data, sortedBy: action.payload.sortedBy };
     default:
       return state;
   }

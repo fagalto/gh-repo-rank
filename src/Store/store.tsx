@@ -31,6 +31,7 @@ export const mapDispatcherToProps = (dispatch: Dispatch<filterActions>) => {
     fetchRepositories: (member: userDetailInfo) => asyncactions.fetchRepos(dispatch, member),
     fetchReposFromLocal: (repos: repoEvent[]) => asyncactions.fetchReposFromLocal(dispatch, repos),
     setRepoToDetailedView: (repoUrl: string) => asyncactions.fetchRepoDetails(dispatch, repoUrl),
+    setSortedArray: (sorted: userDetailInfo[], item:string) => asyncactions.setSortedCommunity(dispatch,sorted,item)
   };
 };
 

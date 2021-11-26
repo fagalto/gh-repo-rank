@@ -1,6 +1,6 @@
-import { repo, } from "../../Store/types";
+import { repo } from "../../Store/types";
 import Chip from "@mui/material/Chip";
-import { ReduxType,connectToStore } from "../../Store/store";
+import { ReduxType, connectToStore } from "../../Store/store";
 
 interface repositoryChip extends ReduxType {
   repo: repo;
@@ -12,6 +12,7 @@ const Repository = (props: repositoryChip) => {
   };
   return (
     <Chip
+      size="small"
       label={props.repo.name}
       component="a"
       onClick={() => handleClick(props.repo.url)}
@@ -20,4 +21,4 @@ const Repository = (props: repositoryChip) => {
     />
   );
 };
-export default connectToStore( Repository);
+export default connectToStore(Repository);

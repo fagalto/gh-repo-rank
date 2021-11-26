@@ -16,12 +16,13 @@ import {
   singleRepoFetched,
   singleRepoFetchError,
   singleRepoFetchStart,
+  setSortedCommunityInState
 } from "./actions";
 import { filterActions, userObject, userDetailInfo, repoEvent } from "./types";
 
 import { getCommunity, getMember, getData, getDataSimple } from "../DataSource/Data";
 
-export const fetchCommunityData = (dispatch: Dispatch<filterActions>,community:string) => {
+export const fetchCommunityData = (dispatch: Dispatch<filterActions>, community: string) => {
   dispatch(exDataFetchStart());
   getCommunity(community)
     .then((res) => res.items as unknown as userDetailInfo[])
@@ -47,7 +48,7 @@ export const setMembersDetailsFromLocal = (
 export const fetchRepoDetails = (dispatch: Dispatch<filterActions>, repoUrl: string) => {
   dispatch(singleRepoFetchStart());
   getDataSimple(repoUrl, {})
-    .then(res=>res.json())
+    .then((res) => res.json())
     .then((data) => dispatch(singleRepoFetched(data)))
     .catch((err) => dispatch(singleRepoFetchError(err)));
 };
@@ -64,6 +65,10 @@ export const fetchAllMembersDetails = (
 ) => {
   dispatch(membersDataFetchStart());
 
+  const parseNum = (doubtIfItsNumber: any) => {
+    return typeof doubtIfItsNumber == "number" ? doubtIfItsNumber : 0;
+  };
+
   const elems = communityData.map((elem: userDetailInfo) => {
     const eventsLink = elem.events_url.replace("{/privacy}", "");
     const noOfContributions = getData(eventsLink, {})
@@ -76,6 +81,7 @@ export const fetchAllMembersDetails = (
         .then((res) => {
           res as unknown as userDetailInfo;
           res.total_contributions = val;
+          res.total_ReposAndGists = parseNum(res.public_repos) + parseNum(res.public_gists);
           return res;
         });
     });
@@ -95,4 +101,10 @@ export const setMemberToViewDetails = (
   member: userDetailInfo
 ) => {
   dispatch(setMemberToView(member));
+};
+export const setSortedCommunity = (
+  dispatch: Dispatch<filterActions>,
+  sortedCommunity: userDetailInfo[],item:string
+) => {
+  dispatch(setSortedCommunityInState(sortedCommunity,item));
 };

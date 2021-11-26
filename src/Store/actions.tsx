@@ -62,4 +62,8 @@ export const singleRepoFetched = (data: any) => {
 export const singleRepoFetchError = (error: any) => {
   return action(FetchDataActions.REPO_FETCH_ERROR, { error: error });
 };
+;
 
+export const setSortedCommunityInState = (community: userDetailInfo[],item:string) => {
+  return action(FetchDataActions.SET_SORTED_COMMUNITY, { data: community,sortedBy:item });
+};

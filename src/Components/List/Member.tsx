@@ -11,10 +11,12 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import StarIcon from "@mui/icons-material/Star";
 import PersonIcon from "@mui/icons-material/Person";
-import ForkRightIcon from "@mui/icons-material/ForkRight";
 import Badge from "@mui/material/Badge";
 import Chip from "@mui/material/Chip";
-
+import Group from "@mui/icons-material/Group";
+import ForkRightIcon from "@mui/icons-material/ForkRight";
+import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
+import Tooltip from "@mui/material/Tooltip";
 
 //const data = { rows: exampleData };
 interface Member extends ReduxType {
@@ -43,14 +45,33 @@ const Member = (props: Member) => {
         />
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <CardContent sx={{ flex: "1 0 auto" }}>
-            
             <Typography component="div" variant="h5">
               {props.userProps.login}
             </Typography>
             <Typography variant="subtitle2" color="text.secondary" component="div">
-              Tolal Contributions: {props.userProps.total_contributions} Repos&Gists:{reposAndGists}{" "}
-              | followers:
-              {props.userProps.followers}
+              <Tooltip title="Total contributions" arrow>
+              <Chip
+                size="small"
+                variant="outlined"
+                icon={<VolunteerActivismIcon />}
+                label={props.userProps.total_contributions}
+              />
+              </Tooltip>
+              <Tooltip title="No. of followers" arrow>
+              <Chip
+                size="small"
+                variant="outlined"
+                icon={<Group />}
+                label={props.userProps.followers}
+                /></Tooltip>
+              <Tooltip title="public repos & gists" arrow>
+              <Chip
+                size="small"
+                variant="outlined"
+                icon={<ForkRightIcon />}
+                label={reposAndGists}
+              />
+              </Tooltip>
             </Typography>
           </CardContent>
         </Box>

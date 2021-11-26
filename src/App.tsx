@@ -45,13 +45,13 @@ const View: React.FC<ReduxType> = function (props) {
   return Object.keys(props.filter.data).length > 0 ? (
     <Container>
       <Grid container sx={{ paddingTop: "20px" }} spacing={2}>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={4} sx={{ maxHeight: "95vh" }}>
           <List />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={4} sx={{ maxHeight: "95vh" }}>
           <MemberContainer />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={4} sx={{ maxHeight: "95vh" }}>
           <RepositoryDetails />
         </Grid>
       </Grid>

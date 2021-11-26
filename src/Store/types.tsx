@@ -43,6 +43,7 @@ export interface userDetailInfo extends userObject {
   created_at?: string;
   updated_at?: string;
   total_contributions?: string;
+  total_ReposAndGists?:string
 }
 export interface repoEvent {
   repo: repo;
@@ -73,6 +74,7 @@ export enum FetchDataActions {
   REPO_FETCH_START = "REPO_FETCH_START",
   REPO_FETCHED = "REPO_FETCHED",
   REPO_FETCH_ERROR = "REPO_FETCH_ERROR",
+  SET_SORTED_COMMUNITY = "SET_SORTED_COMMUNITY",
 }
 
 export type filterActions = ActionType<typeof actions>;
@@ -86,6 +88,7 @@ export interface filterState {
   memberToView: userDetailInfo | string;
   memberRepos: any;
   repoDetails: any;
+  sortedBy:string
 }
 
 export interface RootState {
@@ -112,3 +115,4 @@ export interface GitRepo {
   open_issues: number;
   watchers: number;
 }
+export const viewHeight = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
