@@ -21,13 +21,15 @@ const VirtualizedList = (props: ReduxType) => {
   };
   const len = props.filter.data.length;
   return (
-    <Card>
-      <Typography component="div" variant="h5">
-        Members of {props.filter.communityName} community
-      </Typography>
+    <Card sx={{ height: types.viewHeight * 0.95 }}>
+      <CardContent>
+        <Typography component="div" variant="h5">
+          Members of {props.filter.communityName} community
+        </Typography>
+      </CardContent>
       <ListHeader />
       <FixedSizeList
-        height={types.viewHeight * 0.8}
+        height={types.viewHeight * 0.7}
         width={"100%"}
         itemSize={50}
         itemCount={len}

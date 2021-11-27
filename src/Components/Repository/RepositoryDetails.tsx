@@ -18,9 +18,9 @@ import Chip from "@mui/material/Chip";
 const RepositoryDetails = (props: ReduxType) => {
   const repo = props.filter.repoDetails as GitRepo;
   const max = 999999;
-console.log(repo)
+  console.log(repo);
   return Object.keys(repo).length > 0 ? (
-    <Card sx={{ maxHeight: viewHeight * 0.9 }}>
+    <Card sx={{ height: viewHeight * 0.95 }}>
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
           Repository Details
@@ -31,9 +31,8 @@ console.log(repo)
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
           {repo.full_name}
         </Typography>
-        <Typography variant="body2">
-          {repo.description}, Language{repo.language}
-        </Typography>
+        <Typography variant="body2">{repo.description}</Typography>
+        <Typography variant="body2">Language{repo.language}</Typography>
         <Typography variant="body2">
           <Stack direction="row" spacing={2}>
             <Chip icon={<StarIcon color="warning" />} label={repo.stargazers_count} />

@@ -53,22 +53,27 @@ const MemberComponent = (props: Member) => {
         <Skeleton animation={false} />
       </Box>
     );
+  //sx={{ height: types.viewHeight * 0.95 }}
 
   return (
-    <Card sx={{ maxHeight: "100%", overflowY: "scroll" }}>
-      <CardMedia component="img" sx={{ height: "auto", width: "50%" }} image={member.avatar_url} />
-      <Box sx={{ display: "flex", flexDirection: "column" }}>
-        <CardContent sx={{ flex: "1 0 auto" }}>
+    <Card sx={{ maxHeight: "100%", overflowY: "scroll", height: types.viewHeight * 0.95 }}>
+      <CardContent sx={{ display: "flex", flexDirection: "row" }}>
+        <CardMedia
+          component="img"
+          sx={{ height: "auto", width: "50%" }}
+          image={member.avatar_url}
+        />
+        <CardContent sx={{ display: "flex", flexDirection: "column" }}>
           <Typography component="div" variant="subtitle2" color="text.secondary">
             Member:
           </Typography>
-          <Typography component="div" variant="h5">
+          <Typography component="div" variant="h6">
             {member.login}
           </Typography>
           <Typography component="div" variant="subtitle2" color="text.secondary">
             Name:
           </Typography>
-          <Typography component="div" variant="h5">
+          <Typography component="div" variant="h6">
             {name}
           </Typography>
           <Typography component="div" variant="subtitle2" color="text.secondary">
@@ -77,37 +82,39 @@ const MemberComponent = (props: Member) => {
           <Typography component="div" variant="body2">
             {member.company}
           </Typography>
-          <Typography component="div" variant="subtitle2" color="text.secondary">
-            Bio:
-          </Typography>
-          <Typography component="div" variant="body2">
-            {member.bio}
-          </Typography>
         </CardContent>
+      </CardContent>
+      <CardContent>
+        <Typography component="div" variant="subtitle2" color="text.secondary">
+          Bio:
+        </Typography>
+        <Typography component="div" variant="body2">
+          {member.bio}
+        </Typography>
+      </CardContent>
 
-        <CardContent sx={{ flex: "1 0 auto" }}>
-          <Stack direction="row" spacing={2}>
-            <Tooltip title="Total number of contributions to all repositories" arrow>
-              <Chip icon={<VolunteerActivismIcon />} label={member.total_contributions} />
-            </Tooltip>
-            <Tooltip title="Number of followers" arrow>
-              <Chip icon={<Group />} label={member.followers} />
-            </Tooltip>
-            <Tooltip title="Numbers of repositories and gists published by member" arrow>
-              <Chip icon={<ForkRightIcon />} label={props.reposAndGists} />
-            </Tooltip>
-          </Stack>
-        </CardContent>
-        <Divider />
-        <CardContent sx={{ flex: "1 0 auto" }}>
-          <Typography component="div" variant="h5">
-            Repositories:
-          </Typography>
-          <Typography component="div" variant="h5">
-            {repos}
-          </Typography>
-        </CardContent>
-      </Box>
+      <CardContent sx={{ flex: "1 0 auto" }}>
+        <Stack direction="row" spacing={2}>
+          <Tooltip title="Total number of contributions to all repositories" arrow>
+            <Chip icon={<VolunteerActivismIcon />} label={member.total_contributions} />
+          </Tooltip>
+          <Tooltip title="Number of followers" arrow>
+            <Chip icon={<Group />} label={member.followers} />
+          </Tooltip>
+          <Tooltip title="Numbers of repositories and gists published by member" arrow>
+            <Chip icon={<ForkRightIcon />} label={props.reposAndGists} />
+          </Tooltip>
+        </Stack>
+      </CardContent>
+      <Divider />
+      <CardContent sx={{ flex: "1 0 auto" }}>
+        <Typography component="div" variant="h5">
+          Repositories:
+        </Typography>
+        <Typography component="div" variant="h5">
+          {repos}
+        </Typography>
+      </CardContent>
     </Card>
   );
 };
