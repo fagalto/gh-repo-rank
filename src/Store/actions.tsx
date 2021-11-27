@@ -1,5 +1,5 @@
 import { action } from "typesafe-actions";
-import { FetchDataActions, userObject, userDetailInfo, repoEvent } from "./types";
+import { FetchDataActions, userObject, userDetailInfo, repoEvent,sortedBy } from "./types";
 
 export const exDataFetched = (data: userDetailInfo[]) => {
   return action(FetchDataActions.FETCH_EX_DATA_SUCCESS, { data: data });
@@ -64,6 +64,6 @@ export const singleRepoFetchError = (error: any) => {
 };
 ;
 
-export const setSortedCommunityInState = (community: userDetailInfo[],item:string) => {
+export const setSortedCommunityInState = (community: userDetailInfo[],item:sortedBy) => {
   return action(FetchDataActions.SET_SORTED_COMMUNITY, { data: community,sortedBy:item });
 };

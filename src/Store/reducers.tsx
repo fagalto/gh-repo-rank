@@ -10,7 +10,9 @@ const init: filterState = {
   memberToView: "",
   repoDetails: [],
   communityName: "reactjs",
-  sortedBy:""
+  sortedBy: { name: "", desc: false },
+  reposAreLoading: false,
+  repoIsLoading:false
 };
 
 export const filterReducer = (state: filterState = init, action: filterActions): filterState => {
@@ -46,12 +48,12 @@ export const filterReducer = (state: filterState = init, action: filterActions):
     case fd.SET_MEMBERS_TO_VIEW:
       return { ...state, memberToView: action.payload.data };
     case fd.REPOS_FETCH_START:
-      return { ...state, isLoading: true };
+      return { ...state, reposAreLoading: true };
     case fd.REPOS_FETCHED:
       return {
         ...state,
         memberRepos: { ...state.memberRepos, [action.payload.member.login]: action.payload.data },
-        isLoading: false,
+        reposAreLoading: false,
       };
     case fd.REPO_FETCH_ERROR:
       return {
@@ -60,24 +62,25 @@ export const filterReducer = (state: filterState = init, action: filterActions):
         error: action.payload.error,
       };
     case fd.REPO_FETCH_START:
-      return { ...state, isLoading: true };
+      return { ...state, repoIsLoading: true };
     case fd.REPO_FETCHED:
       return {
         ...state,
         repoDetails: action.payload.data,
-        isLoading: false,
+        repoIsLoading: false,
       };
     case fd.REPOS_FETCH_ERROR:
       return {
         ...state,
-        isLoading: false,
+        repoIsLoading: false,
         error: action.payload.error,
       };
     case fd.SET_REPOS_FROM_LOCAL:
-      return { ...state, memberRepos: action.payload.data, isLoading: false };
+      return { ...state, memberRepos: action.payload.data, reposAreLoading: false };
     case fd.SET_SORTED_COMMUNITY:
       return { ...state, memberData: action.payload.data, sortedBy: action.payload.sortedBy };
     default:
       return state;
   }
 };
+

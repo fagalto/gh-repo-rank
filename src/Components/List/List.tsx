@@ -22,20 +22,18 @@ const VirtualizedList = (props: ReduxType) => {
   const len = props.filter.data.length;
   return (
     <Card>
-      <CardContent>
-        <Typography component="div" variant="h5">
-          Members of {props.filter.communityName} community
-        </Typography>
-        <ListHeader />
-        <FixedSizeList
-          height={types.viewHeight * 0.8}
-          width={"100%"}
-          itemSize={100}
-          itemCount={len}
-          overscanCount={5}>
-          {renderRow}
-        </FixedSizeList>
-      </CardContent>
+      <Typography component="div" variant="h5">
+        Members of {props.filter.communityName} community
+      </Typography>
+      <ListHeader />
+      <FixedSizeList
+        height={types.viewHeight * 0.8}
+        width={"100%"}
+        itemSize={50}
+        itemCount={len}
+        overscanCount={5}>
+        {renderRow}
+      </FixedSizeList>
     </Card>
   );
 };

@@ -43,7 +43,7 @@ export interface userDetailInfo extends userObject {
   created_at?: string;
   updated_at?: string;
   total_contributions?: string;
-  total_ReposAndGists?:string
+  total_ReposAndGists?: string;
 }
 export interface repoEvent {
   repo: repo;
@@ -88,9 +88,14 @@ export interface filterState {
   memberToView: userDetailInfo | string;
   memberRepos: any;
   repoDetails: any;
-  sortedBy:string
+  sortedBy: sortedBy;
+  reposAreLoading: boolean;
+  repoIsLoading:boolean
 }
-
+export interface sortedBy {
+  name: string;
+  desc: boolean;
+}
 export interface RootState {
   filter: filterState;
 }
@@ -115,4 +120,7 @@ export interface GitRepo {
   open_issues: number;
   watchers: number;
 }
-export const viewHeight = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+export const viewHeight = Math.max(
+  document.documentElement.clientHeight || 0,
+  window.innerHeight || 0
+);

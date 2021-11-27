@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import Loader from "./Components/Loading/Loading";
 import List from "./Components/List/List";
 import RepositoryDetails from "./Components/Repository/RepositoryDetails";
 
@@ -35,7 +36,7 @@ const View: React.FC<ReduxType> = function (props) {
     const fetchUsers = () => {
       console.log("started", dt.userDetailsStarted);
       if (dt.userDetailsStarted == false && props.filter.data.length > 0) {
-        props.fetchAllMembersDetails(props.filter.data.slice(0, 10));
+        props.fetchAllMembersDetails(props.filter.data);
         setData({ ...dt, userDetailsStarted: true });
       }
     };
@@ -57,7 +58,7 @@ const View: React.FC<ReduxType> = function (props) {
       </Grid>
     </Container>
   ) : (
-    <div>Loading...</div>
+    <Loader />
   );
 };
 

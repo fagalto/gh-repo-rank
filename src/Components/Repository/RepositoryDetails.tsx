@@ -18,7 +18,7 @@ import Chip from "@mui/material/Chip";
 const RepositoryDetails = (props: ReduxType) => {
   const repo = props.filter.repoDetails as GitRepo;
   const max = 999999;
-
+console.log(repo)
   return Object.keys(repo).length > 0 ? (
     <Card sx={{ maxHeight: viewHeight * 0.9 }}>
       <CardContent>

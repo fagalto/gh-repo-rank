@@ -15,7 +15,7 @@ code {
 background:#E5E5E5;
 display:block;
 width:calc(100% - 15px);
-height:100px;
+height:50px;
 }
 .bigTableCell{
   border:1px dotted #3b3a3a;
@@ -46,7 +46,7 @@ height:100px;
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background-color: transparent;
 }
  
 /* Handle */

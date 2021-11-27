@@ -8,6 +8,9 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import Tooltip from "@mui/material/Tooltip";
+import Skeleton from "@mui/material/Skeleton";
 import Repository from "../Repository/RepositoryChip";
 
 import StarIcon from "@mui/icons-material/Star";
@@ -24,11 +27,12 @@ export interface Member {
   member: types.userDetailInfo;
   repos: types.repoEvent[] | string;
   reposAndGists: number;
+  reposAreLoading: boolean;
 }
 
 const MemberComponent = (props: Member) => {
   const member = props.member;
-
+  console.log(member);
   const listRepositories = (filteredRepos: types.repoEvent[]) => {
     return filteredRepos.map((repo: types.repoEvent) => {
       const repoProp = { repo: repo.repo };
@@ -37,40 +41,72 @@ const MemberComponent = (props: Member) => {
   };
   const repositories = typeof props.repos != "string" ? listRepositories(props.repos) : props.repos;
 
+  const name = props.member.name != null ? props.member.name : "hidden";
+
+  const repos =
+    typeof props.repos != "string" ? (
+      listRepositories(props.repos)
+    ) : (
+      <Box>
+        <Skeleton />
+        <Skeleton animation="wave" />
+        <Skeleton animation={false} />
+      </Box>
+    );
+
   return (
     <Card sx={{ maxHeight: "100%", overflowY: "scroll" }}>
-      <Box>
-        <CardMedia
-          component="img"
-          sx={{ height: "33%", width: "auto%" }}
-          image={member.avatar_url}
-        />
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <CardContent sx={{ flex: "1 0 auto" }}>
-            <Typography component="div" variant="subtitle2" color="text.secondary">
-              Member:
-            </Typography>
-            <Typography component="div" variant="h5">
-              {member.name} aka {member.login}
-            </Typography>
-            <Typography variant="subtitle2" color="text.secondary" component="div">
-              <Stack direction="row" spacing={2}>
-                <Chip
-                  icon={<VolunteerActivismIcon color="warning" />}
-                  label={member.total_contributions}
-                />
-                <Chip icon={<Group />} label={member.followers} />
-                <Chip icon={<ForkRightIcon />} label={props.reposAndGists} />
-              </Stack>
-            </Typography>
-            <Typography component="div" variant="h5">
-              Repositories:
-            </Typography>
-            <Typography component="div" variant="h5">
-              {repositories}
-            </Typography>
-          </CardContent>
-        </Box>
+      <CardMedia component="img" sx={{ height: "auto", width: "50%" }} image={member.avatar_url} />
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <CardContent sx={{ flex: "1 0 auto" }}>
+          <Typography component="div" variant="subtitle2" color="text.secondary">
+            Member:
+          </Typography>
+          <Typography component="div" variant="h5">
+            {member.login}
+          </Typography>
+          <Typography component="div" variant="subtitle2" color="text.secondary">
+            Name:
+          </Typography>
+          <Typography component="div" variant="h5">
+            {name}
+          </Typography>
+          <Typography component="div" variant="subtitle2" color="text.secondary">
+            Company:
+          </Typography>
+          <Typography component="div" variant="body2">
+            {member.company}
+          </Typography>
+          <Typography component="div" variant="subtitle2" color="text.secondary">
+            Bio:
+          </Typography>
+          <Typography component="div" variant="body2">
+            {member.bio}
+          </Typography>
+        </CardContent>
+
+        <CardContent sx={{ flex: "1 0 auto" }}>
+          <Stack direction="row" spacing={2}>
+            <Tooltip title="Total number of contributions to all repositories" arrow>
+              <Chip icon={<VolunteerActivismIcon />} label={member.total_contributions} />
+            </Tooltip>
+            <Tooltip title="Number of followers" arrow>
+              <Chip icon={<Group />} label={member.followers} />
+            </Tooltip>
+            <Tooltip title="Numbers of repositories and gists published by member" arrow>
+              <Chip icon={<ForkRightIcon />} label={props.reposAndGists} />
+            </Tooltip>
+          </Stack>
+        </CardContent>
+        <Divider />
+        <CardContent sx={{ flex: "1 0 auto" }}>
+          <Typography component="div" variant="h5">
+            Repositories:
+          </Typography>
+          <Typography component="div" variant="h5">
+            {repos}
+          </Typography>
+        </CardContent>
       </Box>
     </Card>
   );

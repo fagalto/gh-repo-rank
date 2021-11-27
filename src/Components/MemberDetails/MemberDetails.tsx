@@ -66,7 +66,8 @@ const MemberDetails = (props: Member) => {
   const memberprops = {
         member: member,
     repos: repos,
-    reposAndGists:reposAndGists
+    reposAndGists: reposAndGists,
+    reposAreLoading:props.filter.reposAreLoading
   }
   return <MemberComponent {...memberprops} />;
 };

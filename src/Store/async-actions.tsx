@@ -18,7 +18,7 @@ import {
   singleRepoFetchStart,
   setSortedCommunityInState
 } from "./actions";
-import { filterActions, userObject, userDetailInfo, repoEvent } from "./types";
+import { filterActions, userObject, userDetailInfo, repoEvent, sortedBy } from "./types";
 
 import { getCommunity, getMember, getData, getDataSimple } from "../DataSource/Data";
 
@@ -26,7 +26,7 @@ export const fetchCommunityData = (dispatch: Dispatch<filterActions>, community:
   dispatch(exDataFetchStart());
   getCommunity(community)
     .then((res) => res.items as unknown as userDetailInfo[])
-    .then((data) => dispatch(exDataFetched(data.slice(0, 10))))
+    .then((data) => dispatch(exDataFetched(data)))
     .catch((err) => dispatch(exDataFetchError(err)));
 };
 export const fetchRepos = (dispatch: Dispatch<filterActions>, member: userDetailInfo) => {
@@ -104,7 +104,7 @@ export const setMemberToViewDetails = (
 };
 export const setSortedCommunity = (
   dispatch: Dispatch<filterActions>,
-  sortedCommunity: userDetailInfo[],item:string
+  sortedCommunity: userDetailInfo[],item:sortedBy
 ) => {
   dispatch(setSortedCommunityInState(sortedCommunity,item));
 };
