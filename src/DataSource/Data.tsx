@@ -3,7 +3,10 @@ import { fetchPaginate } from "fetch-paginate";
 import Bottleneck from "bottleneck";
 import { userDetailInfo } from "../Store/types";
 
-const MAX_REQUESTS_PER_HOUR = 20000;
+/*althoug request limit is 5000 per hour, it was tested that normal use of app  youc an set much more, because not all queries count as 1 request.
+loading all details of reactjs community takes litlle more then 100 requests
+*/
+const MAX_REQUESTS_PER_HOUR = 40000;
 
 const limiter = new Bottleneck({
   maxConcurrent: 1,

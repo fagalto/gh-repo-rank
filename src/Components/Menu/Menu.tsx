@@ -5,6 +5,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
+import InfoIcon from "@mui/icons-material/Info";
 import RefreshOutlinedIcon from "@mui/icons-material/RefreshOutlined";
 
 import IconButton from "@mui/material/IconButton";
@@ -49,6 +50,12 @@ const IconMenu = (props: ReduxType) => {
               <RefreshOutlinedIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText onClick={handleReload}>Reload data from Github</ListItemText>
+          </MenuItem>
+          <MenuItem>
+            <ListItemIcon>
+              <InfoIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>About</ListItemText>
           </MenuItem>
         </MenuList>
       </Menu>

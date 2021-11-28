@@ -7,6 +7,7 @@ import {
   membersDataFetchError,
   membersDataFetchStart,
   membersDataFetched,
+  memberDataFetched,
   setMembersFromLocal,
   setMemberToView,
   reposFetched,
@@ -20,6 +21,7 @@ import {
   setLoadingPercent,
   setLoadingBuffered,
   refreshDatafromApi,
+  memberDataFetchError,
 } from "./actions";
 import { filterActions, userDetailInfo, repoEvent, sortedBy } from "./types";
 
@@ -86,15 +88,15 @@ export const fetchAllMembersDetails = (
       dispatch(setLoadingPercent(percent));
       return getMember(elem.url)
         .then((res) => res.json())
-        .then((res) => {
-          res as unknown as userDetailInfo;
+        .then((res:userDetailInfo) => {
           res.total_contributions = val;
           res.total_ReposAndGists = parseNum(res.public_repos) + parseNum(res.public_gists);
+          dispatch(memberDataFetched(res));
 
           // console.log("Fetching ", percent);
 
           return res;
-        });
+        })
     });
   });
 

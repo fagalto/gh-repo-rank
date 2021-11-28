@@ -1,4 +1,3 @@
-
 import { FetchDataActions as fd, filterState, filterActions } from "./types";
 
 const init: filterState = {
@@ -14,10 +13,11 @@ const init: filterState = {
   reposAreLoading: false,
   repoIsLoading: false,
   loadingProgress: 0,
-  bufferedProgress:0
+  bufferedProgress: 0,
 };
 
 export const filterReducer = (state: filterState = init, action: filterActions): filterState => {
+  console.log(action.type)
   switch (action.type) {
     case fd.FETCH_EX_DATA_STARTED:
       return { ...state, isLoading: true, data: [], error: null };
@@ -51,6 +51,15 @@ export const filterReducer = (state: filterState = init, action: filterActions):
         bufferedProgress: 0,
         memberData: action.payload.data,
         data: action.payload.data,
+      };
+    case fd.FETCH_MEMBER_DATA_SUCCESS:
+      const newMembers = state.memberData.slice();
+      newMembers.push(action.payload.data);
+
+      return {
+        ...state,
+        memberData: newMembers,
+        data:newMembers
       };
     case fd.FETCH_MEMBERS_DATA_ERROR:
       return {
@@ -101,9 +110,8 @@ export const filterReducer = (state: filterState = init, action: filterActions):
     case fd.SET_LOADING_BUFFERED:
       return { ...state, bufferedProgress: action.payload.data };
     case fd.REFRESH_DATA_FROM_API:
-      return{...state,data:[],memberData:[]}
+      return { ...state, data: [], memberData: [] };
     default:
       return state;
   }
 };
-

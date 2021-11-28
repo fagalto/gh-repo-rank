@@ -26,6 +26,19 @@ export const membersDataFetchError = (error: any) => {
     error,
   });
 };
+export const memberDataFetched = (data: userDetailInfo) => {
+  return action(FetchDataActions.FETCH_MEMBER_DATA_SUCCESS, {
+    data: data,
+  });
+};
+export const memberDataFetchStart = () => {
+  return action(FetchDataActions.FETCH_MEMBER_DATA_STARTED, {});
+};
+export const memberDataFetchError = (error: any) => {
+  return action(FetchDataActions.FETCH_MEMBER_DATA_ERROR, {
+    error,
+  });
+};
 export const setMembersFromLocal = (data: userDetailInfo[]) => {
   return action(FetchDataActions.SET_MEMBERS_FROM_LOCAL, {
     data: data,

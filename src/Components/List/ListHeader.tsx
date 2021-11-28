@@ -36,9 +36,10 @@ export const ListHeader = (props: ReduxType) => {
       return result * sortOrder;
     };
   }
+  const barTitle = `Loading data progress : ${props.filter.loadingProgress}% It may take few minutes`;
   const progresBar = props.filter.isLoading ? (
     <Box sx={{ width: "100%" }}>
-      <Tooltip title="Loading community member details. it may take few minutes" arrow>
+      <Tooltip title={barTitle} arrow>
         <LinearProgress
           variant="buffer"
           value={props.filter.loadingProgress}
