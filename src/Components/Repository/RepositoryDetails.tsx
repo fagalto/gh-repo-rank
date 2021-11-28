@@ -1,15 +1,12 @@
-
-import {  GitRepo, viewHeight } from "../../Store/types";
+import { GitRepo, viewHeight } from "../../Store/types";
 import { connectToStore, ReduxType } from "../../Store/store";
 import EmptyRepository from "./EmptyRepository";
 import Card from "@mui/material/Card";
 import Stack from "@mui/material/Stack";
 import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-
-import StarIcon from "@mui/icons-material/Star";
+import Tooltip from "@mui/material/Tooltip";
 import PersonIcon from "@mui/icons-material/Person";
 import ForkRightIcon from "@mui/icons-material/ForkRight";
 import Chip from "@mui/material/Chip";
@@ -29,21 +26,27 @@ const RepositoryDetails = (props: ReduxType) => {
           {repo.full_name}
         </Typography>
         <Typography variant="body2">{repo.description}</Typography>
-        <Typography variant="body2">Language{repo.language}</Typography>
-        <Typography variant="body2">
-          <Stack direction="row" spacing={2}>
-            <Chip icon={<StarIcon color="warning" />} label={repo.stargazers_count} />
-            <Chip icon={<PersonIcon />} label={repo.watchers_count} />
-            <Chip icon={<ForkRightIcon />} label={repo.forks} />
-          </Stack>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          Language
         </Typography>
-      </CardContent>
+        <Typography variant="body2" gutterBottom>
+          {repo.language}
+        </Typography>
 
-      <CardActions>
-        <Button size="small" href={repo.homepage}>
-          Learn More
+        <Stack direction="row" spacing={2}>
+          <Tooltip title="number of repository watchers" arrow>
+            <Chip icon={<PersonIcon />} label={repo.watchers} />
+          </Tooltip>
+          <Tooltip title="how many times repository has been forked" arrow>
+            <Chip icon={<ForkRightIcon />} label={repo.forks} />
+          </Tooltip>
+        </Stack>
+      </CardContent>
+      <CardContent>
+        <Button size="small" href={repo.homepage} color="primary">
+          View Homepage
         </Button>
-      </CardActions>
+      </CardContent>
     </Card>
   ) : (
     <EmptyRepository />

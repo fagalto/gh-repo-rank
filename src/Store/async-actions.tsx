@@ -29,7 +29,7 @@ export const fetchCommunityData = (dispatch: Dispatch<filterActions>, community:
   dispatch(exDataFetchStart());
   getCommunity(community)
     .then((res) => res.items as unknown as userDetailInfo[])
-    .then((data) => dispatch(exDataFetched(data.slice(0, 20))))
+    .then((data) => dispatch(exDataFetched(data)))
     .catch((err) => dispatch(exDataFetchError(err)));
 };
 

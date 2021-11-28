@@ -37,13 +37,12 @@ export const getMembersFromlocalStorage = () => {
   const membersDetailsInLocal = localStorage.getItem("membersDetails");
   const membersDetails =
     membersDetailsInLocal !== null ? (JSON.parse(membersDetailsInLocal) as userDetailInfo[]) : [];
-  //console.log("data call from local storage", membersDetails)
   return membersDetails;
 };
 export const getItemFromlocalStorage = (itemName: string) => {
   const item = localStorage.getItem(itemName);
   const ret = item !== null ? item : "";
-  // console.log("getting items from localStorage instead of", itemName)
+
   return ret;
 };
 
@@ -53,10 +52,12 @@ export async function getData(url: string, options: object) {
     fetchOptions: authorization,
     ...options,
   };
+  // data from api is often expected to be paginated. paginated request are scheduled to not overuse request limits
   const response = limiter.schedule(() => fetchPaginate(url, options2));
   return await response;
 }
 
+//some resources are not expoected to require pagination, such as single member or repo
 export async function getDataSimple(url: string, options: object) {
   const authorization = await auth({ type: "oauth-app" });
 

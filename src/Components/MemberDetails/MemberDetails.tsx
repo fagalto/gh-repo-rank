@@ -9,12 +9,15 @@ interface Member extends ReduxType {
   member: types.userDetailInfo;
 }
 
+/*
+Again, we try to fetch local data if they are already to save some time, fluency and to no overload api
+*/
+
 const MemberDetails = (props: Member) => {
   const member = props.member;
   const [dt, setData] = useState({ repos: {}, member: "" });
   useEffect(() => {
     const fetchData = () => {
-      console.log("fetching repos for", member.login);
       const storedRepos = getItemFromlocalStorage(member.login);
       storedRepos.length === 0
         ? props.fetchRepositories(member)
@@ -30,7 +33,6 @@ const MemberDetails = (props: Member) => {
   };
   const reposAndGists =
     member !== undefined ? parseNum(member.public_repos) + parseNum(member.public_gists) : 0;
-
 
   const filterRepositories = (repositories: types.repoEvent[]) => {
     const clearRepos = repositories.map((repo: types.repoEvent) => repo);
@@ -51,6 +53,7 @@ const MemberDetails = (props: Member) => {
     return unique;
   };
 
+  //Loading only distinct repos of all repos events. Also savin it to local for future reuse
   const repos =
     props.filter.memberRepos[member.login] !== undefined
       ? filterRepositories(props.filter.memberRepos[member.login])
@@ -60,13 +63,13 @@ const MemberDetails = (props: Member) => {
       member.login,
       JSON.stringify({ [member.login]: filterRepositories(props.filter.memberRepos[member.login]) })
     );
-  
+
   const memberprops = {
-        member: member,
+    member: member,
     repos: repos,
     reposAndGists: reposAndGists,
-    reposAreLoading:props.filter.reposAreLoading
-  }
+    reposAreLoading: props.filter.reposAreLoading,
+  };
   return <MemberComponent {...memberprops} />;
 };
 

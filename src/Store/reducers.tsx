@@ -18,7 +18,6 @@ const init: filterState = {
 };
 
 export const filterReducer = (state: filterState = init, action: filterActions): filterState => {
-  console.log(action.type);
   switch (action.type) {
     case fd.FETCH_EX_DATA_STARTED:
       return { ...state, isLoading: true, data: [], error: null };

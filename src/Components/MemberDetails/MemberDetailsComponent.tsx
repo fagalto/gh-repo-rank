@@ -1,4 +1,3 @@
-
 import * as types from "../../Store/types";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
@@ -26,11 +25,11 @@ export interface Member {
 
 const MemberComponent = (props: Member) => {
   const member = props.member;
-  console.log(member);
+
   const listRepositories = (filteredRepos: types.repoEvent[]) => {
-    return filteredRepos.map((repo: types.repoEvent) => {
+    return filteredRepos.map((repo: types.repoEvent, index: number) => {
       const repoProp = { repo: repo.repo };
-      return <Repository {...repoProp} />;
+      return <Repository key={index} {...repoProp} />;
     });
   };
 
