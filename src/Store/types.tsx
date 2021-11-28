@@ -75,6 +75,9 @@ export enum FetchDataActions {
   REPO_FETCHED = "REPO_FETCHED",
   REPO_FETCH_ERROR = "REPO_FETCH_ERROR",
   SET_SORTED_COMMUNITY = "SET_SORTED_COMMUNITY",
+  SET_LOADING_PERCENT = "SET_LOADING_PERCENT",
+  SET_LOADING_BUFFERED = "SET_LOADING_BUFFERED",
+  REFRESH_DATA_FROM_API = "REFRESH_DATA_FROM_API",
 }
 
 export type filterActions = ActionType<typeof actions>;
@@ -84,13 +87,15 @@ export interface filterState {
   data: userDetailInfo[];
   memberData: userDetailInfo[];
   isLoading: boolean;
+  loadingProgress: number;
+  bufferedProgress: number;
   error: any;
   memberToView: userDetailInfo | string;
   memberRepos: any;
   repoDetails: any;
   sortedBy: sortedBy;
   reposAreLoading: boolean;
-  repoIsLoading:boolean
+  repoIsLoading: boolean;
 }
 export interface sortedBy {
   name: string;

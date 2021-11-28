@@ -1,5 +1,5 @@
-import { act } from "react-dom/test-utils";
-import { FetchDataActions as fd, filterState, filterActions, userDetailInfo } from "./types";
+
+import { FetchDataActions as fd, filterState, filterActions } from "./types";
 
 const init: filterState = {
   data: [],
@@ -12,7 +12,9 @@ const init: filterState = {
   communityName: "reactjs",
   sortedBy: { name: "", desc: false },
   reposAreLoading: false,
-  repoIsLoading:false
+  repoIsLoading: false,
+  loadingProgress: 0,
+  bufferedProgress:0
 };
 
 export const filterReducer = (state: filterState = init, action: filterActions): filterState => {
@@ -25,12 +27,20 @@ export const filterReducer = (state: filterState = init, action: filterActions):
         ...state,
         data: action.payload.data,
         isLoading: false,
+        bufferedProgress: 0,
+        loadingProgress: 0,
         error: null,
         memberToView: "",
       };
     case fd.FETCH_EX_DATA_ERROR:
       console.log("Error fetch", action.payload.error);
-      return { ...state, isLoading: false, error: action.payload.error };
+      return {
+        ...state,
+        isLoading: false,
+        error: action.payload.error,
+        bufferedProgress: 0,
+        loadingProgress: 0,
+      };
 
     case fd.FETCH_MEMBERS_DATA_STARTED:
       return { ...state, isLoading: true };
@@ -38,11 +48,19 @@ export const filterReducer = (state: filterState = init, action: filterActions):
       return {
         ...state,
         isLoading: false,
+        loadingProgress: 0,
+        bufferedProgress: 0,
         memberData: action.payload.data,
         data: action.payload.data,
       };
     case fd.FETCH_MEMBERS_DATA_ERROR:
-      return { ...state, error: action.payload.error };
+      return {
+        ...state,
+        error: action.payload.error,
+        isLoading: false,
+        loadingProgress: 0,
+        bufferedProgress: 0,
+      };
     case fd.SET_MEMBERS_FROM_LOCAL:
       return { ...state, data: action.payload.data, memberData: action.payload.data };
     case fd.SET_MEMBERS_TO_VIEW:
@@ -79,6 +97,12 @@ export const filterReducer = (state: filterState = init, action: filterActions):
       return { ...state, memberRepos: action.payload.data, reposAreLoading: false };
     case fd.SET_SORTED_COMMUNITY:
       return { ...state, memberData: action.payload.data, sortedBy: action.payload.sortedBy };
+    case fd.SET_LOADING_PERCENT:
+      return { ...state, loadingProgress: action.payload.data };
+    case fd.SET_LOADING_BUFFERED:
+      return { ...state, bufferedProgress: action.payload.data };
+    case fd.REFRESH_DATA_FROM_API:
+      return{...state,data:[],memberData:[]}
     default:
       return state;
   }

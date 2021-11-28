@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { repo, GitRepo, viewHeight } from "../../Store/types";
+
+import {  GitRepo, viewHeight } from "../../Store/types";
 import { connectToStore, ReduxType } from "../../Store/store";
 import EmptyRepository from "./EmptyRepository";
 import Card from "@mui/material/Card";
@@ -12,13 +12,10 @@ import Typography from "@mui/material/Typography";
 import StarIcon from "@mui/icons-material/Star";
 import PersonIcon from "@mui/icons-material/Person";
 import ForkRightIcon from "@mui/icons-material/ForkRight";
-import Badge from "@mui/material/Badge";
 import Chip from "@mui/material/Chip";
 
 const RepositoryDetails = (props: ReduxType) => {
   const repo = props.filter.repoDetails as GitRepo;
-  const max = 999999;
-  console.log(repo);
   return Object.keys(repo).length > 0 ? (
     <Card sx={{ height: viewHeight * 0.95 }}>
       <CardContent>

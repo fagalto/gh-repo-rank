@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+
 import { connectToStore, ReduxType } from "../../Store/store";
-import * as types from "../../Store/types";
 import MemberDetails from "./MemberDetails";
 import EmptyMember from "./EmptyMember";
 

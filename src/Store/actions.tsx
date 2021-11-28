@@ -1,5 +1,5 @@
 import { action } from "typesafe-actions";
-import { FetchDataActions, userObject, userDetailInfo, repoEvent,sortedBy } from "./types";
+import { FetchDataActions, userDetailInfo, repoEvent,sortedBy } from "./types";
 
 export const exDataFetched = (data: userDetailInfo[]) => {
   return action(FetchDataActions.FETCH_EX_DATA_SUCCESS, { data: data });
@@ -66,4 +66,14 @@ export const singleRepoFetchError = (error: any) => {
 
 export const setSortedCommunityInState = (community: userDetailInfo[],item:sortedBy) => {
   return action(FetchDataActions.SET_SORTED_COMMUNITY, { data: community,sortedBy:item });
+};
+export const setLoadingPercent = (percent: number) => {
+  return action(FetchDataActions.SET_LOADING_PERCENT,{data:percent})
+}
+export const setLoadingBuffered = (percent: number) => {
+  return action(FetchDataActions.SET_LOADING_BUFFERED, { data: percent });
+};
+;
+export const refreshDatafromApi = () => {
+  return action(FetchDataActions.REFRESH_DATA_FROM_API, {});
 };

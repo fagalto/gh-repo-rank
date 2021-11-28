@@ -1,7 +1,3 @@
-import { useState, useEffect } from "react";
-import { connectToStore, ReduxType } from "../../Store/store";
-import * as types from "../../Store/types";
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";

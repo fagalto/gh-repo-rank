@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
 import { connectToStore, ReduxType } from "../../Store/store";
 import * as types from "../../Store/types";
-
-import Repository from "../Repository/RepositoryChip";
-import { getItemFromlocalStorage, getData } from "../../DataSource/Data";
+import { getItemFromlocalStorage } from "../../DataSource/Data";
 import MemberComponent from "./MemberDetailsComponent";
 
 //const data = { rows: exampleData };
@@ -18,7 +16,7 @@ const MemberDetails = (props: Member) => {
     const fetchData = () => {
       console.log("fetching repos for", member.login);
       const storedRepos = getItemFromlocalStorage(member.login);
-      storedRepos.length == 0
+      storedRepos.length === 0
         ? props.fetchRepositories(member)
         : props.fetchReposFromLocal(JSON.parse(storedRepos) as types.repoEvent[]);
       setData({ repos: props.filter.memberRepos, member: member.login });

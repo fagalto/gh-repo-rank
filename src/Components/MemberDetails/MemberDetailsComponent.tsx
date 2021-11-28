@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { connectToStore, ReduxType } from "../../Store/store";
+
 import * as types from "../../Store/types";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
@@ -12,14 +11,9 @@ import Divider from "@mui/material/Divider";
 import Tooltip from "@mui/material/Tooltip";
 import Skeleton from "@mui/material/Skeleton";
 import Repository from "../Repository/RepositoryChip";
-
-import StarIcon from "@mui/icons-material/Star";
 import Group from "@mui/icons-material/Group";
 import ForkRightIcon from "@mui/icons-material/ForkRight";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
-
-import { getItemFromlocalStorage, getData } from "../../DataSource/Data";
-import { isConstructorDeclaration, JsxElement } from "typescript";
 
 //const data = { rows: exampleData };
 
@@ -39,7 +33,6 @@ const MemberComponent = (props: Member) => {
       return <Repository {...repoProp} />;
     });
   };
-  const repositories = typeof props.repos != "string" ? listRepositories(props.repos) : props.repos;
 
   const name = props.member.name != null ? props.member.name : "hidden";
 
@@ -70,13 +63,13 @@ const MemberComponent = (props: Member) => {
           <Typography component="div" variant="h6">
             {member.login}
           </Typography>
-          <Typography component="div" variant="subtitle2" color="text.secondary">
+          <Typography component="div" variant="subtitle2" color="text.secondary" noWrap>
             Name:
           </Typography>
           <Typography component="div" variant="h6">
             {name}
           </Typography>
-          <Typography component="div" variant="subtitle2" color="text.secondary">
+          <Typography component="div" variant="subtitle2" color="text.secondary" noWrap>
             Company:
           </Typography>
           <Typography component="div" variant="body2">

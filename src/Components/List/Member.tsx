@@ -1,30 +1,24 @@
-import { useState, useEffect } from "react";
 import { connectToStore, ReduxType } from "../../Store/store";
-import List from "./List";
+
 import * as types from "../../Store/types";
-import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
-import StarIcon from "@mui/icons-material/Star";
-import PersonIcon from "@mui/icons-material/Person";
-import Badge from "@mui/material/Badge";
 import Chip from "@mui/material/Chip";
 import Group from "@mui/icons-material/Group";
 import ForkRightIcon from "@mui/icons-material/ForkRight";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import Tooltip from "@mui/material/Tooltip";
+import Skeleton from "@mui/material/Skeleton";
 
 //const data = { rows: exampleData };
 interface Member extends ReduxType {
   userProps: types.userDetailInfo;
 }
 
-const Member = (props: Member) => {
+const Row = (props: Member) => {
   const handleClick = () => {
     props.setMembertoDetailedView(props.userProps);
   };
@@ -50,6 +44,7 @@ const Member = (props: Member) => {
             padding: "5px",
             flexDirection: "row",
             justifyContent: "space-between",
+            alignItems: "center",
           }}>
           <Typography component="div" variant="subtitle2">
             {props.userProps.login}
@@ -60,7 +55,7 @@ const Member = (props: Member) => {
                 size="small"
                 variant="outlined"
                 icon={<VolunteerActivismIcon />}
-                label={props.userProps.total_contributions}
+                label={props.filter.isLoading ? <Skeleton /> : props.userProps.total_contributions}
               />
             </Tooltip>
             <Tooltip title="No. of followers" arrow>
@@ -68,7 +63,7 @@ const Member = (props: Member) => {
                 size="small"
                 variant="outlined"
                 icon={<Group />}
-                label={props.userProps.followers}
+                label={props.filter.isLoading ? <Skeleton /> : props.userProps.followers}
               />
             </Tooltip>
             <Tooltip title="public repos & gists" arrow>
@@ -76,7 +71,7 @@ const Member = (props: Member) => {
                 size="small"
                 variant="outlined"
                 icon={<ForkRightIcon />}
-                label={reposAndGists}
+                label={props.filter.isLoading ? <Skeleton /> : reposAndGists}
               />
             </Tooltip>
           </Stack>
@@ -88,4 +83,4 @@ const Member = (props: Member) => {
   );
 };
 
-export default connectToStore(Member);
+export default connectToStore(Row);

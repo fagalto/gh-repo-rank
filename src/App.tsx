@@ -7,8 +7,7 @@ import RepositoryDetails from "./Components/Repository/RepositoryDetails";
 import MemberContainer from "./Components/MemberDetails/MemberContainer";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import * as types from "./Store/types";
-import { getMembersFromlocalStorage, getData } from "./DataSource/Data";
+import { getMembersFromlocalStorage } from "./DataSource/Data";
 
 import { connectToStore, ReduxType } from "./Store/store";
 
@@ -18,42 +17,46 @@ const View: React.FC<ReduxType> = function (props) {
 
   const [dt, setData] = useState({ communityFetchStarted: false, userDetailsStarted: false });
 
+  /*
+First storage is checked if there are local data stored to apply in application
+
+If no, fetchin community from api, then detail info for each user is fetched
+  */
+
   useEffect(() => {
     const fetchDataFromLocalStorage = () => {
       props.getDatafromMemory(membersDetails);
       setData({ userDetailsStarted: true, communityFetchStarted: true });
     };
-    dataFromApiRequired == false && fetchDataFromLocalStorage();
+    dataFromApiRequired === false && fetchDataFromLocalStorage();
   }, []);
   useEffect(() => {
     const fetchData = () => {
       props.fetchCommunityData(props.filter.communityName);
       setData({ ...dt, communityFetchStarted: true });
     };
-    dataFromApiRequired == true && fetchData();
+    dataFromApiRequired === true && fetchData();
   }, []);
   useEffect(() => {
     const fetchUsers = () => {
-      console.log("started", dt.userDetailsStarted);
-      if (dt.userDetailsStarted == false && props.filter.data.length > 0) {
+      if (dt.userDetailsStarted === false && props.filter.data.length > 0) {
         props.fetchAllMembersDetails(props.filter.data);
         setData({ ...dt, userDetailsStarted: true });
       }
     };
-    dataFromApiRequired == true && fetchUsers();
+    dataFromApiRequired === true && fetchUsers();
   });
 
   return Object.keys(props.filter.data).length > 0 ? (
     <Container>
       <Grid container sx={{ paddingTop: "20px" }} spacing={2}>
-        <Grid item xs={12} sm={4} >
-
+        <Grid item xs={12} sm={4}>
           <List />
         </Grid>
-        <Grid item xs={12} sm={4} >
+        <Grid item xs={12} sm={4}>
           <MemberContainer />
         </Grid>
-        <Grid item xs={12} sm={4} >
+        <Grid item xs={12} sm={4}>
           <RepositoryDetails />
         </Grid>
       </Grid>

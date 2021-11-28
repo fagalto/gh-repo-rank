@@ -16,9 +16,12 @@ import {
   singleRepoFetched,
   singleRepoFetchError,
   singleRepoFetchStart,
-  setSortedCommunityInState
+  setSortedCommunityInState,
+  setLoadingPercent,
+  setLoadingBuffered,
+  refreshDatafromApi,
 } from "./actions";
-import { filterActions, userObject, userDetailInfo, repoEvent, sortedBy } from "./types";
+import { filterActions, userDetailInfo, repoEvent, sortedBy } from "./types";
 
 import { getCommunity, getMember, getData, getDataSimple } from "../DataSource/Data";
 
@@ -26,9 +29,10 @@ export const fetchCommunityData = (dispatch: Dispatch<filterActions>, community:
   dispatch(exDataFetchStart());
   getCommunity(community)
     .then((res) => res.items as unknown as userDetailInfo[])
-    .then((data) => dispatch(exDataFetched(data)))
+    .then((data) => dispatch(exDataFetched(data.slice(0, 20))))
     .catch((err) => dispatch(exDataFetchError(err)));
 };
+
 export const fetchRepos = (dispatch: Dispatch<filterActions>, member: userDetailInfo) => {
   dispatch(reposFetchStart());
 
@@ -68,20 +72,27 @@ export const fetchAllMembersDetails = (
   const parseNum = (doubtIfItsNumber: any) => {
     return typeof doubtIfItsNumber == "number" ? doubtIfItsNumber : 0;
   };
+  const len = communityData.length;
 
-  const elems = communityData.map((elem: userDetailInfo) => {
+  const elems = communityData.map((elem: userDetailInfo, index: number) => {
+    const percent = Math.ceil((100 * index) / len);
+    dispatch(setLoadingBuffered(percent));
     const eventsLink = elem.events_url.replace("{/privacy}", "");
     const noOfContributions = getData(eventsLink, {})
       .then((res) => res.items)
       .then((val) => val.length);
 
     return noOfContributions.then((val) => {
+      dispatch(setLoadingPercent(percent));
       return getMember(elem.url)
         .then((res) => res.json())
         .then((res) => {
           res as unknown as userDetailInfo;
           res.total_contributions = val;
           res.total_ReposAndGists = parseNum(res.public_repos) + parseNum(res.public_gists);
+
+          // console.log("Fetching ", percent);
+
           return res;
         });
     });
@@ -104,7 +115,13 @@ export const setMemberToViewDetails = (
 };
 export const setSortedCommunity = (
   dispatch: Dispatch<filterActions>,
-  sortedCommunity: userDetailInfo[],item:sortedBy
+  sortedCommunity: userDetailInfo[],
+  item: sortedBy
 ) => {
-  dispatch(setSortedCommunityInState(sortedCommunity,item));
+  dispatch(setSortedCommunityInState(sortedCommunity, item));
+};
+export const refreshData = (dispatch: Dispatch<filterActions>) => {
+  localStorage.clear();
+  dispatch(refreshDatafromApi());
+  window.location.reload();
 };

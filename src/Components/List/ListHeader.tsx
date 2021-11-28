@@ -1,9 +1,14 @@
 import { Stack, Typography, Chip } from "@mui/material";
 import { connectToStore, ReduxType } from "../../Store/store";
-import { sortedBy, userDetailInfo } from "../../Store/types";
+import { sortedBy } from "../../Store/types";
+import Menu from "../Menu/Menu";
 import DownIcon from "@mui/icons-material/ArrowDropDownOutlined";
 import UpIcon from "@mui/icons-material/ArrowDropUpOutlined";
 import Card from "@mui/material/Card";
+import LinearProgress from "@mui/material/LinearProgress";
+import Box from "@mui/material/Box";
+import Tooltip from "@mui/material/Tooltip";
+import CardContent from "@mui/material/CardContent";
 
 export const ListHeader = (props: ReduxType) => {
   const sort = {
@@ -31,17 +36,26 @@ export const ListHeader = (props: ReduxType) => {
       return result * sortOrder;
     };
   }
-
-  const sorter = Object.entries(sort).map((elem: any, val: any) => {
+  const progresBar = props.filter.isLoading ? (
+    <Box sx={{ width: "100%" }}>
+      <Tooltip title="Loading community member details. it may take few minutes" arrow>
+        <LinearProgress
+          variant="buffer"
+          value={props.filter.loadingProgress}
+          valueBuffer={props.filter.loadingProgress}
+        />
+      </Tooltip>
+    </Box>
+  ) : null;
+  const sorter = Object.entries(sort).map((elem: any, key: number) => {
     const icon =
-      elem[1] == prevSort.name ? prevSort.desc === true ? <UpIcon /> : <DownIcon /> : null;
+      elem[1] === prevSort.name ? prevSort.desc === true ? <UpIcon /> : <DownIcon /> : undefined;
 
-    return icon === null ? (
-      <Chip onClick={() => handleClick(elem[1])} label={elem[0]} size="small" variant="outlined" />
-    ) : (
+    return (
       <Chip
         onClick={() => handleClick(elem[1])}
         label={elem[0]}
+        key={key}
         icon={icon}
         size="small"
         variant="outlined"
@@ -49,18 +63,27 @@ export const ListHeader = (props: ReduxType) => {
     );
   });
   return (
-    <Card
-      sx={{
-        display: "flex",
-        padding: "15px",
-        flexDirection: "row",
-        justifyContent: "space-between",
-      }}>
-      <Typography color="text.secondary">Sort by </Typography>
-      <Stack direction="row" spacing={1}>
-        {sorter}
-      </Stack>
-    </Card>
+    <Box>
+      <CardContent sx={{ display: "flex", flexDirection: "row" }}>
+        <Menu />
+        <Typography component="div" variant="h5">
+          {props.filter.communityName} community
+        </Typography>
+      </CardContent>
+      {progresBar}
+      <Card
+        sx={{
+          display: "flex",
+          padding: "15px",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}>
+        <Typography color="text.secondary">Sort by </Typography>
+        <Stack direction="row" spacing={1}>
+          {sorter}
+        </Stack>
+      </Card>
+    </Box>
   );
 };
 
