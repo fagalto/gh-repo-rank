@@ -64,7 +64,16 @@ const Row = (props: Member) => {
 
   return Object.keys(props).length > 0 ? (
     <div onClick={handleClick}>
-      <Card sx={{ display: "flex", alignItems: "flex-start" }}>
+      <Card
+        sx={[
+          {
+            "&:hover": {
+              cursor: "pointer",
+              backgroundColor: "#eee",
+            },
+          },
+          { display: "flex", alignItems: "flex-start" },
+        ]}>
         <CardMedia
           component="img"
           sx={{ height: 50, width: "auto" }}

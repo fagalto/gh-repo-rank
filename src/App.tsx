@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-import "./App.css";
 import Loader from "./Components/Loading/Loading";
 import List from "./Components/List/List";
 import RepositoryDetails from "./Components/Repository/RepositoryDetails";
-
 import MemberContainer from "./Components/MemberDetails/MemberContainer";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";

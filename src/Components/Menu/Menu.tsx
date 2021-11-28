@@ -43,16 +43,14 @@ const IconMenu = (props: ReduxType) => {
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}>
-        <Paper sx={{ width: 320, maxWidth: "100%" }}>
-          <MenuList>
-            <MenuItem>
-              <ListItemIcon>
-                <RefreshOutlinedIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText onClick={handleReload}>Reload data from Github</ListItemText>
-            </MenuItem>
-          </MenuList>
-        </Paper>
+        <MenuList>
+          <MenuItem>
+            <ListItemIcon>
+              <RefreshOutlinedIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText onClick={handleReload}>Reload data from Github</ListItemText>
+          </MenuItem>
+        </MenuList>
       </Menu>
     </div>
   );
