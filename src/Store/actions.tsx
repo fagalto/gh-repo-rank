@@ -1,5 +1,12 @@
 import { action } from "typesafe-actions";
-import { FetchDataActions, userDetailInfo, repoEvent, sortedBy, slimUser } from "./types";
+import {
+  FetchDataActions,
+  userDetailInfo,
+  repoEvent,
+  sortedBy,
+  slimUser,
+  organization,
+} from "./types";
 
 export const exDataFetched = (data: slimUser[]) => {
   return action(FetchDataActions.FETCH_EX_DATA_SUCCESS, { data: data });
@@ -100,4 +107,13 @@ export const authorFetchError = (error: any) => {
   return action(FetchDataActions.FETCH_AUTHOR_ERROR, {
     error,
   });
+};
+export const orgsFetchStarted = () => {
+  return action(FetchDataActions.FETCH_ORGS_STARTED, {  });
+};
+export const orgsFetchSucccess = (data: organization[]) => {
+  return action(FetchDataActions.FETCH_ORGS_SUCCESS, { data: data });
+};
+export const orgsFetchError = (error: any) => {
+  return action(FetchDataActions.FETCH_ORGS_ERROR, { error: error });
 };

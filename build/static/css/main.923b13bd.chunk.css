@@ -1,0 +1,2 @@
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background-color:transparent}::-webkit-scrollbar-thumb{background:#888}::-webkit-scrollbar-thumb:hover{background:#555;width:10px}.loader{margin:10% auto auto;border-radius:50%;border:20px solid #eaf0f6;border-top-color:#ff7a59;width:100px;height:100px;animation:spinner 4s linear infinite}@keyframes spinner{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}
+/*# sourceMappingURL=main.923b13bd.chunk.css.map */

@@ -90,6 +90,10 @@ export enum FetchDataActions {
   FETCH_AUTHOR_STARTED = "FETCH_AUTHOR_STARTED",
   FETCH_AUTHOR_SUCCESS = "FETCH_AUTHOR_SUCCESS",
   FETCH_AUTHOR_ERROR = "FETCH_AUTHOR_ERROR",
+
+  FETCH_ORGS_STARTED = "FETCH_ORGS_STARTED",
+  FETCH_ORGS_SUCCESS = "FETCH_ORGS_SUCCESS",
+  FETCH_ORGS_ERROR = "FETCH_ORGS_ERROR",
 }
 
 export type filterActions = ActionType<typeof actions>;
@@ -109,6 +113,7 @@ export interface filterState {
   reposAreLoading: boolean;
   repoIsLoading: boolean;
   author: userDetailInfo | null;
+  organizations: organization[]
 }
 export interface sortedBy {
   name: string;
@@ -142,3 +147,17 @@ export const viewHeight = Math.max(
   document.documentElement.clientHeight || 0,
   window.innerHeight || 0
 );
+export interface organization {
+  login: string;
+  id: number;
+  node_id: string;
+  url: string;
+  repos_url: string;
+  events_url: string;
+  hooks_url: string;
+  issues_url: string;
+  members_url: string;
+  public_members_url: string;
+  avatar_url: string;
+  description: string;
+}

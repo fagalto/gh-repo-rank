@@ -24,8 +24,18 @@ import {
   authorFetched,
   authorFetchError,
   authorFetchStarted,
+  orgsFetchStarted,
+  orgsFetchSucccess,
+  orgsFetchError,
 } from "./actions";
-import { filterActions, userDetailInfo, repoEvent, sortedBy, slimUser } from "./types";
+import {
+  filterActions,
+  userDetailInfo,
+  repoEvent,
+  sortedBy,
+  slimUser,
+  organization,
+} from "./types";
 
 import { getCommunity, getMember, getData, getDataSimple } from "../DataSource/Data";
 
@@ -40,7 +50,6 @@ import {
 export const fetchCommunityData = (dispatch: Dispatch<filterActions>, community: string) => {
   dispatch(exDataFetchStart());
   const localCommunity = getItemFromlocalStorage("community_" + community);
-
   return localCommunity == ""
     ? getCommunity(community)
         .then((res) => res.items as unknown as userDetailInfo[])
@@ -181,4 +190,11 @@ export const getAuthor = (dispatch: Dispatch<filterActions>, url: string) => {
       return res;
     })
     .catch((err) => dispatch(authorFetchError(err)));
+};
+export const getOrganizations = (dispatch: Dispatch<filterActions>, url: string) => {
+  dispatch(orgsFetchStarted());
+  return getData(url, {})
+    .then((res) => res.items as organization[])
+    .then((res) => dispatch(orgsFetchSucccess(res)))
+    .catch((err) => dispatch(orgsFetchError(err)));
 };

@@ -14,7 +14,8 @@ const init: filterState = {
   repoIsLoading: false,
   loadingProgress: 0,
   bufferedProgress: 0,
-  author: null
+  author: null,
+  organizations:[]
 };
 
 export const filterReducer = (state: filterState = init, action: filterActions): filterState => {
@@ -117,6 +118,20 @@ export const filterReducer = (state: filterState = init, action: filterActions):
     case fd.FETCH_AUTHOR_ERROR:
       return {
         ...state,
+        error: action.payload.error,
+      };
+    case fd.FETCH_ORGS_STARTED:
+      return { ...state, isLoading: true, error: null };
+    case fd.FETCH_ORGS_SUCCESS:
+      return {
+        ...state,
+        organizations: action.payload.data,
+        isLoading: false,
+      };
+    case fd.FETCH_ORGS_ERROR:
+      return {
+        ...state,
+        isLoading: false,
         error: action.payload.error,
       };
     default:

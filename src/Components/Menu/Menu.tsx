@@ -8,11 +8,15 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import InfoIcon from "@mui/icons-material/Info";
 import RefreshOutlinedIcon from "@mui/icons-material/RefreshOutlined";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+
 
 import IconButton from "@mui/material/IconButton";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 
 import { connectToStore, ReduxType } from "../../Store/store";
+
+import { organization } from "../../Store/types";
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
@@ -32,6 +36,7 @@ const IconMenu = (props: ReduxType) => {
   useEffect(() => {
     const fetchData = () => {
       props.getAuthor("https://api.github.com/users/fagalto");
+      //props.getOrganizations("https://api.github.com/organizations");
     };
     fetchData();
   }, []);
@@ -39,6 +44,19 @@ const IconMenu = (props: ReduxType) => {
     props.filter.author !== null && props.setMembertoDetailedView(props.filter.author);
     handleClose()
   };
+console.log(props.filter.organizations)
+  const organizations =
+    props.filter.organizations.length > 0 ? (
+      props.filter.organizations.map((org: organization, index: number) => (
+        <MenuItem value={org.login} key={index}>
+          {org.login}
+        </MenuItem>
+      ))
+    ) : (
+      <MenuItem value="loading">
+      "Loading"
+      </MenuItem>
+    );
 
   return (
     <div>
@@ -71,6 +89,17 @@ const IconMenu = (props: ReduxType) => {
               <InfoIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText>About</ListItemText>
+          </MenuItem>
+          <MenuItem  >
+            <ListItemIcon>
+              <InfoIcon fontSize="small" />
+            </ListItemIcon>
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              label="Age">
+              {organizations}
+            </Select>
           </MenuItem>
         </MenuList>
       </Menu>
