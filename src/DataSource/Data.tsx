@@ -48,6 +48,12 @@ export const getItemFromlocalStorage = (itemName: string) => {
 
   return ret;
 };
+export const pushItemToLocalStorage = (keyName: string, item: any) => {
+  const local = getItemFromlocalStorage(keyName)
+  const dataInStorage = local == "" ? [] : (JSON.parse(local) as any[]);
+  dataInStorage.push(item);
+  localStorage.setItem(keyName, JSON.stringify(dataInStorage));
+};
 
 export async function getData(url: string, options: object) {
   const authorization = await auth({ type: "oauth-app" });
@@ -55,8 +61,9 @@ export async function getData(url: string, options: object) {
     fetchOptions: authorization,
     ...options,
   };
+  const urlPageEnhanced = url + "?per_page=100";
   // data from api is often expected to be paginated. paginated request are scheduled to not overuse request limits
-  const response = limiter.schedule(() => fetchPaginate(url, options2));
+  const response = limiter.schedule(() => fetchPaginate(urlPageEnhanced, options2));
   return await response;
 }
 

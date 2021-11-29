@@ -90,3 +90,14 @@ export const setLoadingBuffered = (percent: number) => {
 export const refreshDatafromApi = () => {
   return action(FetchDataActions.REFRESH_DATA_FROM_API, {});
 };
+export const authorFetchStarted = () => {
+  return action(FetchDataActions.FETCH_AUTHOR_STARTED, { });
+};
+export const authorFetched = (user: userDetailInfo) => {
+  return action(FetchDataActions.FETCH_AUTHOR_SUCCESS, {data: user});
+};
+export const authorFetchError = (error: any) => {
+  return action(FetchDataActions.FETCH_AUTHOR_ERROR, {
+    error,
+  });
+};

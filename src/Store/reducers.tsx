@@ -14,10 +14,10 @@ const init: filterState = {
   repoIsLoading: false,
   loadingProgress: 0,
   bufferedProgress: 0,
+  author: null
 };
 
 export const filterReducer = (state: filterState = init, action: filterActions): filterState => {
-  console.log(action.type)
   switch (action.type) {
     case fd.FETCH_EX_DATA_STARTED:
       return { ...state, isLoading: true, data: [], error: null };
@@ -59,7 +59,7 @@ export const filterReducer = (state: filterState = init, action: filterActions):
       return {
         ...state,
         memberData: newMembers,
-        data:newMembers
+        data: newMembers,
       };
     case fd.FETCH_MEMBERS_DATA_ERROR:
       return {
@@ -111,6 +111,14 @@ export const filterReducer = (state: filterState = init, action: filterActions):
       return { ...state, bufferedProgress: action.payload.data };
     case fd.REFRESH_DATA_FROM_API:
       return { ...state, data: [], memberData: [] };
+    case fd.FETCH_AUTHOR_SUCCESS: {
+      return { ...state, author: action.payload.data };
+    }
+    case fd.FETCH_AUTHOR_ERROR:
+      return {
+        ...state,
+        error: action.payload.error,
+      };
     default:
       return state;
   }

@@ -1,14 +1,10 @@
 import { ActionType } from "typesafe-actions";
 import * as actions from "./actions";
 
-export interface appData {
-  rows: any[];
-  filteredRows: any[];
-}
 export interface userObject {
   login: string;
   id: number;
-  node_id: string;
+  node_id?: string;
   avatar_url: string;
   gravatar_id: string;
   url: string;
@@ -42,8 +38,8 @@ export interface userDetailInfo extends userObject {
   following?: number;
   created_at?: string;
   updated_at?: string;
-  total_contributions?: string |number;
-  total_ReposAndGists?: string |number;
+  total_contributions?: number;
+  total_ReposAndGists?: number;
 }
 export interface repoEvent {
   repo: repo;
@@ -81,6 +77,10 @@ export enum FetchDataActions {
   SET_LOADING_PERCENT = "SET_LOADING_PERCENT",
   SET_LOADING_BUFFERED = "SET_LOADING_BUFFERED",
   REFRESH_DATA_FROM_API = "REFRESH_DATA_FROM_API",
+
+  FETCH_AUTHOR_STARTED = "FETCH_AUTHOR_STARTED",
+  FETCH_AUTHOR_SUCCESS = "FETCH_AUTHOR_SUCCESS",
+  FETCH_AUTHOR_ERROR = "FETCH_AUTHOR_ERROR",
 }
 
 export type filterActions = ActionType<typeof actions>;
@@ -99,6 +99,7 @@ export interface filterState {
   sortedBy: sortedBy;
   reposAreLoading: boolean;
   repoIsLoading: boolean;
+  author: userDetailInfo | null;
 }
 export interface sortedBy {
   name: string;

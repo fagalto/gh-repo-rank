@@ -33,6 +33,7 @@ export const mapDispatcherToProps = (dispatch: Dispatch<filterActions>) => {
     setSortedArray: (sorted: userDetailInfo[], item: sortedBy) =>
       asyncactions.setSortedCommunity(dispatch, sorted, item),
     refreshData: () => asyncactions.refreshData(dispatch),
+    getAuthor: (url:string)=>asyncactions.getAuthor(dispatch, url)
   };
 };
 

@@ -7,7 +7,6 @@ import {
   membersDataFetchError,
   membersDataFetchStart,
   membersDataFetched,
-  memberDataFetched,
   setMembersFromLocal,
   setMemberToView,
   reposFetched,
@@ -22,16 +21,30 @@ import {
   setLoadingBuffered,
   refreshDatafromApi,
   memberDataFetchError,
+  authorFetched,
+  authorFetchError,
+  authorFetchStarted,
 } from "./actions";
 import { filterActions, userDetailInfo, repoEvent, sortedBy } from "./types";
 
-import { getCommunity, getMember, getData, getDataSimple } from "../DataSource/Data";
+import {
+  getCommunity,
+  getMember,
+  getData,
+  getDataSimple,
+  pushItemToLocalStorage,
+  getItemFromlocalStorage,
+  getMembersFromlocalStorage,
+} from "../DataSource/Data";
 
 export const fetchCommunityData = (dispatch: Dispatch<filterActions>, community: string) => {
   dispatch(exDataFetchStart());
   getCommunity(community)
     .then((res) => res.items as unknown as userDetailInfo[])
-    .then((data) => dispatch(exDataFetched(data)))
+    .then((data) => {
+      localStorage.setItem("community", JSON.stringify(data));
+      return dispatch(exDataFetched(data));
+    })
     .catch((err) => dispatch(exDataFetchError(err)));
 };
 
@@ -78,33 +91,50 @@ export const fetchAllMembersDetails = (
 
   const elems = communityData.map((elem: userDetailInfo, index: number) => {
     const percent = Math.ceil((100 * index) / len);
-    dispatch(setLoadingBuffered(percent));
+    //some url in dataset have {privacy} string. remove to get the data, but not sure if should respoect privacy in that case
     const eventsLink = elem.events_url.replace("{/privacy}", "");
-    const noOfContributions = getData(eventsLink, {})
-      .then((res) => res.items)
-      .then((val) => val.length);
-
+    const cachedEvents = getItemFromlocalStorage(eventsLink); ///loook for stored computed copy.
+    // since it takes a lot of time to compute events for user, they are cached in local storage
+    const noOfContributions =
+      parseNum(cachedEvents) > 0
+        ? Promise.resolve(parseNum(cachedEvents)) // for code simplicity since local and fetched data are treated
+        : getData(eventsLink, {})
+            .then((res) => {
+              return res.items;
+            })
+            .then((val) => {
+              localStorage.setItem(eventsLink, JSON.stringify(val.length));
+              return val.length;
+            });
     return noOfContributions.then((val) => {
-      dispatch(setLoadingPercent(percent));
+      dispatch(setLoadingBuffered(percent));
       return getMember(elem.url)
         .then((res) => res.json())
-        .then((res:userDetailInfo) => {
+        .then((res: userDetailInfo) => {
           res.total_contributions = val;
           res.total_ReposAndGists = parseNum(res.public_repos) + parseNum(res.public_gists);
-          dispatch(memberDataFetched(res));
+          //pushing to local storage item by item avoid refetching same data which takes long for community
+          pushItemToLocalStorage("membersDetails", res);
+          dispatch(setLoadingPercent(percent));
 
           // console.log("Fetching ", percent);
 
           return res;
-        })
+        });
     });
+
+    /////
   });
 
   Promise.all(elems)
     .then((data) => {
-      dispatch(membersDataFetched(data));
+      ///if datasets lenght are different then load from local memory which probably contains some interrupted dataset
+      const local = getMembersFromlocalStorage();
+      data.length > local.length //i think it will never occur
+        ? dispatch(membersDataFetched(data))
+        : dispatch(membersDataFetched(local));
       ///save to localStorage to not overload Gtihub API
-      localStorage.setItem("membersDetails", JSON.stringify(data));
+      localStorage.setItem("memberDataCompleted", JSON.stringify(true));
     })
     .catch((err) => dispatch(membersDataFetchError(err)));
 };
@@ -126,4 +156,15 @@ export const refreshData = (dispatch: Dispatch<filterActions>) => {
   localStorage.clear();
   dispatch(refreshDatafromApi());
   window.location.reload();
+};
+export const getAuthor = (dispatch: Dispatch<filterActions>, url: string) => {
+  dispatch(authorFetchStarted());
+  return getMember(url)
+    .then((res) => res.json())
+    .then((res: userDetailInfo) => {
+      dispatch(authorFetched(res));
+
+      return res;
+    })
+    .catch((err) => dispatch(authorFetchError(err)));
 };

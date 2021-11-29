@@ -41,7 +41,7 @@ const Row = (props: Member) => {
     tooltip: "Total contributions",
   });
   icons.push({
-    item: props.userProps.total_contributions,
+    item: props.userProps.followers,
     icon: <Group />,
     tooltip: "No. of followers",
   });

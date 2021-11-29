@@ -5,24 +5,23 @@ import RepositoryDetails from "./Components/Repository/RepositoryDetails";
 import MemberContainer from "./Components/MemberDetails/MemberContainer";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import { getMembersFromlocalStorage } from "./DataSource/Data";
+import { getMembersFromlocalStorage, getItemFromlocalStorage } from "./DataSource/Data";
 
 import { connectToStore, ReduxType } from "./Store/store";
+import { userDetailInfo } from "./Store/types";
 
 const View: React.FC<ReduxType> = function (props) {
-  const membersDetails = getMembersFromlocalStorage();
-  const dataFromApiRequired = membersDetails.length > 0 ? false : true;
+  //check if loadin data from api is required.
+  //cached responses length should be > 0 and equal in length to current community object
+  const isCompleted = getItemFromlocalStorage("memberDataCompleted")=="true"
+
+  const dataFromApiRequired = isCompleted !== true ? true : false;
 
   const [dt, setData] = useState({ communityFetchStarted: false, userDetailsStarted: false });
 
-  /*
-First storage is checked if there are local data stored to apply in application
-
-If no, fetchin community from api, then detail info for each user is fetched
-  */
-
   useEffect(() => {
     const fetchDataFromLocalStorage = () => {
+      const membersDetails = getMembersFromlocalStorage();
       props.getDatafromMemory(membersDetails);
       setData({ userDetailsStarted: true, communityFetchStarted: true });
     };
@@ -38,7 +37,18 @@ If no, fetchin community from api, then detail info for each user is fetched
   useEffect(() => {
     const fetchUsers = () => {
       if (dt.userDetailsStarted === false && props.filter.data.length > 0) {
-        props.fetchAllMembersDetails(props.filter.data);
+        //If stored memberData and communityData lenght are different,
+        // it means that loading resources from api was interupted
+        // so dispatch fetching data only for unmatched elements
+        //compare functiomn -- onlu ids are compared
+        const membersDetails = getMembersFromlocalStorage();
+
+        const diff = props.filter.data.filter(
+          (elem: userDetailInfo) =>
+            !membersDetails.some((memberElem: userDetailInfo) => elem.id === memberElem.id)
+        );
+
+        props.fetchAllMembersDetails(diff);
         setData({ ...dt, userDetailsStarted: true });
       }
     };

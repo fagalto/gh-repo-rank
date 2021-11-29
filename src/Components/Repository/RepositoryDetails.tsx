@@ -43,7 +43,7 @@ const RepositoryDetails = (props: ReduxType) => {
         </Stack>
       </CardContent>
       <CardContent>
-        <Button size="small" href={repo.homepage} color="primary">
+        <Button size="small" href={repo.homepage} color="primary" variant="outlined">
           View Homepage
         </Button>
       </CardContent>
