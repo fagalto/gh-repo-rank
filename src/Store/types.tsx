@@ -1,6 +1,15 @@
 import { ActionType } from "typesafe-actions";
 import * as actions from "./actions";
 
+//only to store anv view member list.
+export interface slimUser {
+  login: string;
+  id: number;
+  events_url: string;
+  url: string;
+  avatar_url: string;
+}
+
 export interface userObject {
   login: string;
   id: number;
@@ -87,7 +96,7 @@ export type filterActions = ActionType<typeof actions>;
 
 export interface filterState {
   communityName: string;
-  data: userDetailInfo[];
+  data: slimUser[];
   memberData: userDetailInfo[];
   isLoading: boolean;
   loadingProgress: number;

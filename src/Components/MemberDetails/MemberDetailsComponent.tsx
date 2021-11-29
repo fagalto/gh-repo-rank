@@ -56,19 +56,19 @@ const MemberComponent = (props: Member) => {
           image={member.avatar_url}
         />
         <CardContent sx={{ display: "flex", flexDirection: "column" }}>
-          <Typography component="div" variant="subtitle2" color="text.secondary">
+          <Typography component="div" variant="subtitle2" color="primary">
             Member:
           </Typography>
           <Typography component="div" variant="h6">
             {member.login}
           </Typography>
-          <Typography component="div" variant="subtitle2" color="text.secondary" noWrap>
+          <Typography component="div" variant="subtitle2" color="primary" noWrap>
             Name:
           </Typography>
           <Typography component="div" variant="h6">
             {name}
           </Typography>
-          <Typography component="div" variant="subtitle2" color="text.secondary" noWrap>
+          <Typography component="div" variant="subtitle2" color="primary" noWrap>
             Company:
           </Typography>
           <Typography component="div" variant="body2">
@@ -77,7 +77,7 @@ const MemberComponent = (props: Member) => {
         </CardContent>
       </CardContent>
       <CardContent>
-        <Typography component="div" variant="subtitle2" color="text.secondary">
+        <Typography component="div" variant="subtitle2" color="primary">
           Bio:
         </Typography>
         <Typography component="div" variant="body2">

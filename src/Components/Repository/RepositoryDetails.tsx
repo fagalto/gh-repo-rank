@@ -16,7 +16,7 @@ const RepositoryDetails = (props: ReduxType) => {
   return Object.keys(repo).length > 0 ? (
     <Card sx={{ height: viewHeight * 0.95 }}>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+        <Typography sx={{ fontSize: 14 }} color="primary" gutterBottom>
           Repository Details
         </Typography>
         <Typography variant="h5" component="div">
@@ -26,7 +26,7 @@ const RepositoryDetails = (props: ReduxType) => {
           {repo.full_name}
         </Typography>
         <Typography variant="body2">{repo.description}</Typography>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+        <Typography sx={{ fontSize: 14 }} color="primary" gutterBottom>
           Language
         </Typography>
         <Typography variant="body2" gutterBottom>
@@ -43,7 +43,7 @@ const RepositoryDetails = (props: ReduxType) => {
         </Stack>
       </CardContent>
       <CardContent>
-        <Button size="small" href={repo.homepage} color="primary" variant="outlined">
+        <Button size="small" href={repo.html_url} color="primary" variant="outlined">
           View Homepage
         </Button>
       </CardContent>

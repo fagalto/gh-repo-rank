@@ -1,7 +1,7 @@
 import { action } from "typesafe-actions";
-import { FetchDataActions, userDetailInfo, repoEvent,sortedBy } from "./types";
+import { FetchDataActions, userDetailInfo, repoEvent, sortedBy, slimUser } from "./types";
 
-export const exDataFetched = (data: userDetailInfo[]) => {
+export const exDataFetched = (data: slimUser[]) => {
   return action(FetchDataActions.FETCH_EX_DATA_SUCCESS, { data: data });
 };
 export const exDataFetchStart = () => {

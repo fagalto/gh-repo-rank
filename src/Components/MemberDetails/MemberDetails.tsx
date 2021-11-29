@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { connectToStore, ReduxType } from "../../Store/store";
 import * as types from "../../Store/types";
-import { getItemFromlocalStorage } from "../../DataSource/Data";
+import {
+  getItemFromlocalStorage,
+  putItemToLocalStorage,
+} from "../../DataSource/LocalMemoryManager";
 import MemberComponent from "./MemberDetailsComponent";
 
 //const data = { rows: exampleData };
@@ -21,7 +24,7 @@ const MemberDetails = (props: Member) => {
       const storedRepos = getItemFromlocalStorage(member.login);
       storedRepos.length === 0
         ? props.fetchRepositories(member)
-        : props.fetchReposFromLocal(JSON.parse(storedRepos) as types.repoEvent[]);
+        : props.fetchReposFromLocal(storedRepos as types.repoEvent[]);
       setData({ repos: props.filter.memberRepos, member: member.login });
     };
 
@@ -59,9 +62,8 @@ const MemberDetails = (props: Member) => {
       ? filterRepositories(props.filter.memberRepos[member.login])
       : "Loading...";
   props.filter.memberRepos[member.login] !== undefined &&
-    localStorage.setItem(
-      member.login,
-      JSON.stringify({ [member.login]: filterRepositories(props.filter.memberRepos[member.login]) })
+    putItemToLocalStorage(
+      member.login,{ [member.login]: filterRepositories(props.filter.memberRepos[member.login]) }
     );
 
   const memberprops = {

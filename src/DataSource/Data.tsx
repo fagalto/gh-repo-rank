@@ -1,7 +1,7 @@
 import { createAppAuth } from "@octokit/auth-app";
 import { fetchPaginate } from "fetch-paginate";
 import Bottleneck from "bottleneck";
-import { userDetailInfo } from "../Store/types";
+
 
 /*althoug request limit is 5000 per hour, it was tested that normal use of app  youc an set much more, because not all queries count as 1 request.
 loading all details of reactjs community takes litlle more then 100 requests
@@ -36,24 +36,7 @@ export const getMember = (url: string) => {
   return getDataSimple(url, connectOptions);
 };
 
-export const getMembersFromlocalStorage = () => {
-  const membersDetailsInLocal = localStorage.getItem("membersDetails");
-  const membersDetails =
-    membersDetailsInLocal !== null ? (JSON.parse(membersDetailsInLocal) as userDetailInfo[]) : [];
-  return membersDetails;
-};
-export const getItemFromlocalStorage = (itemName: string) => {
-  const item = localStorage.getItem(itemName);
-  const ret = item !== null ? item : "";
 
-  return ret;
-};
-export const pushItemToLocalStorage = (keyName: string, item: any) => {
-  const local = getItemFromlocalStorage(keyName)
-  const dataInStorage = local == "" ? [] : (JSON.parse(local) as any[]);
-  dataInStorage.push(item);
-  localStorage.setItem(keyName, JSON.stringify(dataInStorage));
-};
 
 export async function getData(url: string, options: object) {
   const authorization = await auth({ type: "oauth-app" });

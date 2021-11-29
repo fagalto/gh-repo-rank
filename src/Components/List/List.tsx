@@ -29,7 +29,7 @@ const VirtualizedList = (props: ReduxType) => {
         width={"100%"}
         itemSize={50}
         itemCount={len}
-        overscanCount={15}>
+        overscanCount={30}>
         {renderRow}
       </FixedSizeList>
     </Card>

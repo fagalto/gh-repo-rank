@@ -25,25 +25,34 @@ import {
   authorFetchError,
   authorFetchStarted,
 } from "./actions";
-import { filterActions, userDetailInfo, repoEvent, sortedBy } from "./types";
+import { filterActions, userDetailInfo, repoEvent, sortedBy, slimUser } from "./types";
+
+import { getCommunity, getMember, getData, getDataSimple } from "../DataSource/Data";
 
 import {
-  getCommunity,
-  getMember,
-  getData,
-  getDataSimple,
+  putItemToLocalStorage,
   pushItemToLocalStorage,
   getItemFromlocalStorage,
   getMembersFromlocalStorage,
-} from "../DataSource/Data";
+  clearLocalSorage,
+} from "../DataSource/LocalMemoryManager";
 
 export const fetchCommunityData = (dispatch: Dispatch<filterActions>, community: string) => {
   dispatch(exDataFetchStart());
   getCommunity(community)
     .then((res) => res.items as unknown as userDetailInfo[])
     .then((data) => {
-      localStorage.setItem("community", JSON.stringify(data));
-      return dispatch(exDataFetched(data));
+      const reducedData = data.map((elem: slimUser) => {
+        return {
+          id: elem.id,
+          login: elem.login,
+          events_url: elem.events_url,
+          url: elem.url,
+          avatar_url: elem.avatar_url,
+        };
+      });
+      putItemToLocalStorage("community_" + community, reducedData);
+      return dispatch(exDataFetched(reducedData));
     })
     .catch((err) => dispatch(exDataFetchError(err)));
 };
@@ -80,7 +89,8 @@ export const fetchReposFromLocal = (dispatch: Dispatch<filterActions>, repos: re
 
 export const fetchAllMembersDetails = (
   dispatch: Dispatch<filterActions>,
-  communityData: userDetailInfo[]
+  communityData: slimUser[],
+  communityName: string
 ) => {
   dispatch(membersDataFetchStart());
 
@@ -89,7 +99,7 @@ export const fetchAllMembersDetails = (
   };
   const len = communityData.length;
 
-  const elems = communityData.map((elem: userDetailInfo, index: number) => {
+  const elems = communityData.map((elem: slimUser, index: number) => {
     const percent = Math.ceil((100 * index) / len);
     //some url in dataset have {privacy} string. remove to get the data, but not sure if should respoect privacy in that case
     const eventsLink = elem.events_url.replace("{/privacy}", "");
@@ -103,7 +113,7 @@ export const fetchAllMembersDetails = (
               return res.items;
             })
             .then((val) => {
-              localStorage.setItem(eventsLink, JSON.stringify(val.length));
+              putItemToLocalStorage(eventsLink, val.length);
               return val.length;
             });
     return noOfContributions.then((val) => {
@@ -114,7 +124,7 @@ export const fetchAllMembersDetails = (
           res.total_contributions = val;
           res.total_ReposAndGists = parseNum(res.public_repos) + parseNum(res.public_gists);
           //pushing to local storage item by item avoid refetching same data which takes long for community
-          pushItemToLocalStorage("membersDetails", res);
+          pushItemToLocalStorage("membersDetails_" + communityName, res);
           dispatch(setLoadingPercent(percent));
 
           // console.log("Fetching ", percent);
@@ -128,13 +138,13 @@ export const fetchAllMembersDetails = (
 
   Promise.all(elems)
     .then((data) => {
-      ///if datasets lenght are different then load from local memory which probably contains some interrupted dataset
-      const local = getMembersFromlocalStorage();
+      ///if datasets lenght are different then load from local memory which probably contains some previously interrupted dataset
+      const local = getMembersFromlocalStorage(communityName);
       data.length > local.length //i think it will never occur
         ? dispatch(membersDataFetched(data))
         : dispatch(membersDataFetched(local));
       ///save to localStorage to not overload Gtihub API
-      localStorage.setItem("memberDataCompleted", JSON.stringify(true));
+      putItemToLocalStorage("memberDataCompleted_" + communityName, true);
     })
     .catch((err) => dispatch(membersDataFetchError(err)));
 };
@@ -153,7 +163,7 @@ export const setSortedCommunity = (
   dispatch(setSortedCommunityInState(sortedCommunity, item));
 };
 export const refreshData = (dispatch: Dispatch<filterActions>) => {
-  localStorage.clear();
+  clearLocalSorage();
   dispatch(refreshDatafromApi());
   window.location.reload();
 };

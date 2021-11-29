@@ -1,6 +1,6 @@
 import { combineReducers, createStore } from "redux";
 import { filterReducer } from "./reducers";
-import { RootState, userDetailInfo, repoEvent, sortedBy } from "./types";
+import { RootState, userDetailInfo, repoEvent, sortedBy, slimUser } from "./types";
 import * as asyncactions from "./async-actions";
 import { Dispatch } from "redux";
 import { filterActions } from "./types";
@@ -21,8 +21,8 @@ export const mapStateToProps = ({ filter }: RootState) => {
 export const mapDispatcherToProps = (dispatch: Dispatch<filterActions>) => {
   return {
     fetchCommunityData: (community: string) => asyncactions.fetchCommunityData(dispatch, community),
-    fetchAllMembersDetails: (communityData: userDetailInfo[]) =>
-      asyncactions.fetchAllMembersDetails(dispatch, communityData),
+    fetchAllMembersDetails: (communityData: slimUser[], communityName: string) =>
+      asyncactions.fetchAllMembersDetails(dispatch, communityData, communityName),
     getDatafromMemory: (communityData: userDetailInfo[]) =>
       asyncactions.setMembersDetailsFromLocal(dispatch, communityData),
     setMembertoDetailedView: (member: userDetailInfo) =>
@@ -33,7 +33,7 @@ export const mapDispatcherToProps = (dispatch: Dispatch<filterActions>) => {
     setSortedArray: (sorted: userDetailInfo[], item: sortedBy) =>
       asyncactions.setSortedCommunity(dispatch, sorted, item),
     refreshData: () => asyncactions.refreshData(dispatch),
-    getAuthor: (url:string)=>asyncactions.getAuthor(dispatch, url)
+    getAuthor: (url: string) => asyncactions.getAuthor(dispatch, url),
   };
 };
 

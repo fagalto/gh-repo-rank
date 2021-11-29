@@ -1,6 +1,6 @@
 import { Stack, Typography, Chip } from "@mui/material";
 import { connectToStore, ReduxType } from "../../Store/store";
-import { sortedBy } from "../../Store/types";
+import { sortedBy, userDetailInfo } from "../../Store/types";
 import Menu from "../Menu/Menu";
 import DownIcon from "@mui/icons-material/ArrowDropDownOutlined";
 import UpIcon from "@mui/icons-material/ArrowDropUpOutlined";
@@ -21,7 +21,7 @@ export const ListHeader = (props: ReduxType) => {
   const handleClick = (item: string) => {
     const order = prevSort.name !== item ? false : !prevSort.desc;
     const sortedBy: sortedBy = { name: item, desc: order };
-    const ret = props.filter.data.sort(dynamicSort(item, order));
+    const ret = props.filter.data.sort(dynamicSort(item, order)) as userDetailInfo[];
     props.setSortedArray(ret, sortedBy);
   };
 
@@ -76,13 +76,17 @@ export const ListHeader = (props: ReduxType) => {
         sx={{
           display: "flex",
           padding: "15px",
-          flexDirection: "row",
           justifyContent: "space-between",
+          alignItems: "center",
         }}>
         <Typography color="text.secondary">Sort by </Typography>
-        <Stack direction="row" spacing={1}>
+        <Box
+          sx={{
+            padding: "15px",
+            justifyContent: "space-between",
+          }}>
           {sorter}
-        </Stack>
+        </Box>
       </Card>
     </Box>
   );

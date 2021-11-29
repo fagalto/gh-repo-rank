@@ -37,6 +37,7 @@ const IconMenu = (props: ReduxType) => {
   }, []);
   const handleAuthor = () => {
     props.filter.author !== null && props.setMembertoDetailedView(props.filter.author);
+    handleClose()
   };
 
   return (

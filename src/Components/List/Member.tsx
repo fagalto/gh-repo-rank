@@ -14,7 +14,6 @@ import Tooltip from "@mui/material/Tooltip";
 import Skeleton from "@mui/material/Skeleton";
 import { JsxElement } from "typescript";
 
-//const data = { rows: exampleData };
 interface Member extends ReduxType {
   userProps: types.userDetailInfo;
 }
@@ -62,6 +61,8 @@ const Row = (props: Member) => {
     </Tooltip>
   ));
 
+
+
   return Object.keys(props).length > 0 ? (
     <div onClick={handleClick}>
       <Card
@@ -69,7 +70,7 @@ const Row = (props: Member) => {
           {
             "&:hover": {
               cursor: "pointer",
-              backgroundColor: "#eee",
+              color: "primary.main",
             },
           },
           { display: "flex", alignItems: "flex-start" },
