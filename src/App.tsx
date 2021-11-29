@@ -6,6 +6,7 @@ import RepositoryDetails from "./Components/Repository/RepositoryDetails";
 import MemberContainer from "./Components/MemberDetails/MemberContainer";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
+
 import {
   getMembersFromlocalStorage,
   getItemFromlocalStorage,
@@ -15,6 +16,7 @@ import { connectToStore, ReduxType } from "./Store/store";
 import { userDetailInfo, slimUser } from "./Store/types";
 
 const View: React.FC<ReduxType> = function (props: ReduxType) {
+
   //check if loadin data from api is required.
   //cached responses length should be > 0 and equal in length to current community object
   const isCompleted =
@@ -34,6 +36,7 @@ const View: React.FC<ReduxType> = function (props: ReduxType) {
   }, []);
   useEffect(() => {
     const fetchData = () => {
+      console.log("fetching community data")
       props.fetchCommunityData(props.filter.communityName);
       setData({ ...dt, communityFetchStarted: true });
     };
@@ -47,8 +50,6 @@ const View: React.FC<ReduxType> = function (props: ReduxType) {
         // so dispatch fetching data only for unmatched elements
         //compare functiomn -- onlu ids are compared
         const membersDetails = getMembersFromlocalStorage(props.filter.communityName);
-
-        console.log("memberdetails:", membersDetails);
         const diff = props.filter.data.filter(
           (elem: slimUser) =>
             !membersDetails.some((memberElem: userDetailInfo) => elem.id === memberElem.id)

@@ -39,22 +39,26 @@ import {
 
 export const fetchCommunityData = (dispatch: Dispatch<filterActions>, community: string) => {
   dispatch(exDataFetchStart());
-  getCommunity(community)
-    .then((res) => res.items as unknown as userDetailInfo[])
-    .then((data) => {
-      const reducedData = data.map((elem: slimUser) => {
-        return {
-          id: elem.id,
-          login: elem.login,
-          events_url: elem.events_url,
-          url: elem.url,
-          avatar_url: elem.avatar_url,
-        };
-      });
-      putItemToLocalStorage("community_" + community, reducedData);
-      return dispatch(exDataFetched(reducedData));
-    })
-    .catch((err) => dispatch(exDataFetchError(err)));
+  const localCommunity = getItemFromlocalStorage("community_" + community);
+
+  return localCommunity == ""
+    ? getCommunity(community)
+        .then((res) => res.items as unknown as userDetailInfo[])
+        .then((data) => {
+          const reducedData = data.map((elem: slimUser) => {
+            return {
+              id: elem.id,
+              login: elem.login,
+              events_url: elem.events_url,
+              url: elem.url,
+              avatar_url: elem.avatar_url,
+            };
+          });
+          putItemToLocalStorage("community_" + community, reducedData);
+          return dispatch(exDataFetched(reducedData));
+        })
+        .catch((err) => dispatch(exDataFetchError(err)))
+    : dispatch(exDataFetched(localCommunity));
 };
 
 export const fetchRepos = (dispatch: Dispatch<filterActions>, member: userDetailInfo) => {
