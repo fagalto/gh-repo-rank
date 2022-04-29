@@ -4,11 +4,9 @@
 
 In the project directory, you can run:
 
-<<<<<<< HEAD
 ### `npm install --force` 
 =======
-### `npm install` 
->>>>>>> b32d2fda3009ac7b50a0e4ae75237a719ab55160
+
 and
 ### `npm start`
 
@@ -22,9 +20,3 @@ There is rate limit in GH api, and it cannot serve more than 5000 request per ho
 I used bottleneck to make sure not to go beyond that number
 
 Also data from endpoints is served paginated, and ith takes some time to fetch all data for all members
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> b32d2fda3009ac7b50a0e4ae75237a719ab55160
