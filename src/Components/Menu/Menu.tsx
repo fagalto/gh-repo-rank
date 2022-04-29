@@ -36,7 +36,7 @@ const IconMenu = (props: ReduxType) => {
   useEffect(() => {
     const fetchData = () => {
       props.getAuthor("https://api.github.com/users/fagalto");
-      //props.getOrganizations("https://api.github.com/organizations");
+      //dont use it - it is too much data to fetch having such a bottleneck.
     };
     fetchData();
   }, []);
@@ -89,17 +89,6 @@ console.log(props.filter.organizations)
               <InfoIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText>About</ListItemText>
-          </MenuItem>
-          <MenuItem  >
-            <ListItemIcon>
-              <InfoIcon fontSize="small" />
-            </ListItemIcon>
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              label="Age">
-              {organizations}
-            </Select>
           </MenuItem>
         </MenuList>
       </Menu>
